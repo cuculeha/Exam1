@@ -81,6 +81,38 @@ char personType :: getGender () const
 	return gender;
 }
 
+personType::personType ()
+{
+	fName = "UNSET";
+	lName = "UNSET";
+	address = "UNSET";
+	gender = 'X';
+	DOB = "UNSET";
+	height = 10;
+}
+personType::personType (string firstName, string lastName)
+{
+	fName = firstName;
+	lName = lastName;
+}
+
+personType::personType (string firstName, string lastName, string addr, char gen, string bdate, double ht )
+{
+	fName = firstName;
+	lName = lastName;
+	address = addr;
+	gender = gen;
+	DOB = bdate;
+	height = ht;
+}
+
+// Destructor
+personType:: ~personType ()
+{
+	cout << fName << " " << lName << " object destroyed...\n";
+}
+
+
 // print function
 void personType :: print () const
 {
@@ -91,6 +123,7 @@ void personType :: print () const
 	cout << "Height  : " << getHeight() << " inches\n";
 	cout << "-----------------------------------------------------\n";
 }
+
 
 // equals strings
 bool personType :: equalData (const personType &person2) const

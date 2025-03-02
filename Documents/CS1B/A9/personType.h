@@ -23,6 +23,14 @@ class personType
 	double getHeight () const;
 	string getDOB () const;
 	char getGender () const;
+	
+	// Constructors
+	personType();
+	personType (string firstName, string lastName );
+	personType (string firstName, string lastName, string addr, char gen, string bdate, double ht);
+
+	//Destructor
+	~personType();
 
 	// Print function 
 	void print () const;

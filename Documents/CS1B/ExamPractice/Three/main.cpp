@@ -18,6 +18,7 @@ struct Book {
     double wholesaleCost;
     double retailPrice;
 };
+
 // Function to disable buffering (so arrow keys can be read instantly)
 void enableRawMode() {
     struct termios new_settings;
@@ -34,14 +35,12 @@ void disableRawMode() {
     tcsetattr(STDIN_FILENO, TCSANOW, &new_settings);
 }
 
-
 void displayBooks(Book books[], int totalBooks) {
-   int startIndex = 0;
-	char ch;
-	enableRawMode();
+    int startIndex = 0;
+    char ch;
+    enableRawMode();
 
     do {
-			
         // Clear screen (Linux/macOS: "clear")
         system("clear");
 
@@ -50,17 +49,17 @@ void displayBooks(Book books[], int totalBooks) {
         cout << "*          SERENDIPITY BOOKSELLERS          *\n";
         cout << "*********************************************\n\n";
 
-        // Print book details for current page
+        // Print book details for the current page
         for (int i = startIndex; i < startIndex + PAGE_SIZE && i < totalBooks; ++i) {
             cout << i + 1 << ". " << books[i].title << " | ISBN: " << books[i].isbn
                  << " | Author: " << books[i].author << " | Price: $" << books[i].retailPrice << "\n";
         }
 
-      cout << "\nPage " << (startIndex / PAGE_SIZE) + 1 << " of " << (totalBooks + PAGE_SIZE - 1) / PAGE_SIZE;
-		cout << "Press arrow keys (Esc to exit)...\n";
+        cout << "\nPage " << (startIndex / PAGE_SIZE) + 1 << " of " << (totalBooks + PAGE_SIZE - 1) / PAGE_SIZE;
+        cout << "\nUse arrow keys (Up/Down) to navigate, q to quit...\n";
 
-    	while (true) {
-        read(STDIN_FILENO, &ch, 1); // Read a single character
+        // Read a single key press
+        read(STDIN_FILENO, &ch, 1);
 
         if (ch == 27) {  // Escape sequence starts with 27 (ESC key)
             char seq[2];
@@ -69,29 +68,28 @@ void displayBooks(Book books[], int totalBooks) {
 
             if (seq[0] == '[') { // Arrow key sequence starts with "["
                 switch (seq[1]) {
-                    case 'A': cout << "Invalid arrow\n"; break;
-                    case 'B': cout << "Invalid arrow\n"; break;
-                    case 'C': cout << "Right arrow\n"; 
-							if (startIndex + PAGE_SIZE < totalBooks)
-							{
-								startIndex += PAGE_SIZE;  // Move forward
-							}
-							break;
-                    case 'D': cout << "Left arrow\n";
-							if (startIndex - PAGE_SIZE >= 0)
-							{
-								 startIndex -= PAGE_SIZE;
-							}
-							break;
-                };
+                    case 'A':  // Up arrow (doesn't do anything in this case)
+                        break;
+                    case 'B':  // Down arrow (doesn't do anything in this case)
+                        break;
+                    case 'C':  // Right arrow
+                        if (startIndex + PAGE_SIZE < totalBooks) {
+                            startIndex += PAGE_SIZE;  // Move forward
+                        }
+                        break;
+                    case 'D':  // Left arrow
+                        if (startIndex - PAGE_SIZE >= 0) {
+                            startIndex -= PAGE_SIZE;  // Move backward
+                        }
+                        break;
+                }
             }
         }
-	}
-} while (ch != 'q');
+
+    } while (ch != 'q');  // Quit if 'q' is pressed
 
     disableRawMode();
 }
-
 
 int main() {
     // Define books as an array
@@ -111,3 +109,4 @@ int main() {
     displayBooks(books, TOTAL_BOOKS);
     return 0;
 }
+

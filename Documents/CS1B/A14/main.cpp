@@ -51,5 +51,10 @@ int main ()
 	student->print();
 	pointer[3]->print();
 
+	for (int i = 0; i < 4 ; i++)
+	{
+		delete pointer[i];
+	}
+
   return 0;
 }

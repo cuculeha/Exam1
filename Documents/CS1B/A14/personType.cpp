@@ -90,14 +90,22 @@ personType::personType (const personType &another)
 	gender = another.gender;
 	DOB = another.DOB;
 	height = another.height;
-	mother = another.mother;
-	father = another.father;
+	if (another.mother)
+	mother = new personType (*another.mother);
+	else
+	mother = nullptr;
+	if (another.father)
+	father = new personType (*another.father);
+	else
+	father = nullptr;
 }
 
 // Destructor
 personType:: ~personType ()
 {
 	cout << fName << " " << lName << " object destroyed...\n";
+	delete mother;
+	delete father;
 }
 
 // print function

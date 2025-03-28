@@ -94,6 +94,7 @@ personType::personType (const personType &another)
 	mother = new personType (*another.mother);
 	else
 	mother = nullptr;
+
 	if (another.father)
 	father = new personType (*another.father);
 	else
@@ -104,7 +105,9 @@ personType::personType (const personType &another)
 personType:: ~personType ()
 {
 	cout << fName << " " << lName << " object destroyed...\n";
+	if (mother != nullptr)
 	delete mother;
+	if (father != nullptr)
 	delete father;
 }
 

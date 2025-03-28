@@ -77,8 +77,8 @@ personType::personType (string firstName, string lastName, string addr, char gen
 	gender = gen;
 	DOB = bdate;
 	height = ht;
-	mother = nullptr;
-	father = nullptr;
+	mother = mom;
+	father = dad;
 }
 
 // copy constructor

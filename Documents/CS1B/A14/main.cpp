@@ -50,6 +50,9 @@ int main ()
 
 	pointer[3] = new personType (*pointer[0]);
 	pointer[3]->print();
+	
+	delete professor;
+	delete student;
 
 	for (int i = 0; i < 4 ; i++)
 	{

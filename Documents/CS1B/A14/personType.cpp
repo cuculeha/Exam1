@@ -97,12 +97,12 @@ personType::personType (const personType &another)
 	gender = another.gender;
 	DOB = another.DOB;
 	height = another.height;
-	if (another.mother)
+	if (another.mother != nullptr)
 	mother = new personType (*another.mother);
 	else
 	mother = nullptr;
 
-	if (another.father)
+	if (another.father != nullptr)
 	father = new personType (*another.father);
 	else
 	father = nullptr;
@@ -121,7 +121,7 @@ personType:: ~personType ()
 	if (father != nullptr)
 	{
 	delete father;
-	mother = nullptr;
+	father = nullptr;
 	}
 }
 

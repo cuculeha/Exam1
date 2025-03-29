@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include "personType.h"
 #include "studentType.h"
 
@@ -45,7 +46,9 @@ studentType:: studentType()
 studentType::studentType(string fName, string lName)
             : personType (fName, lName)
 {
-  // its empty.. 
+	gpa = 2.5;
+	id = "";
+	classification = "";
 }
 studentType:: studentType(string fName, string lName, double studentGPA, string studentID, string studentCLS)
             : personType (fName, lName)
@@ -60,9 +63,16 @@ studentType:: studentType(string fName, string lName, double studentGPA, string 
 void studentType :: print () const
 {
   personType :: print ();
+
+	cout << endl;
+	cout << left << setw (7) << "GPA" << left << setw (15) << "Student ID" << "Classification\n";
+	cout << left << setw(7) << getGPA ();
+	cout << left << setw (15) << getID();
+	cout << getClassification() << endl;
+	/*
   cout << "Student GPA    : " << getGPA() << endl;
   cout << "Student ID     : " << getID() << endl;
-  cout << "Classification : " << getClassification() << endl;
+  cout << "Classification : " << getClassification() << endl; */
 }
 
 bool studentType :: equalData (const studentType &another) const

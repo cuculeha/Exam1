@@ -13,13 +13,13 @@ int main ()
 	pointer[0] = new personType("Alicia", "Mark", "821 Calle Campana", 'F', "02/03/2003", 56.7, nullptr, nullptr);
 
 	//Second person with professorType (will be someone's dad)
-	pointer[1] = new professorType ("Mr. Ali", "Huzaimah");
+	pointer[1] = new professorType ("Robert", "Elijah");
 	professorType* professor = static_cast<professorType*>(pointer[1]);
 	if (professor != nullptr )
 	{
-		professor->setAddress ("123 Street Somewhere in Mexico");
+		professor->setAddress ("123 Alicia Pkwy");
 		professor->setGender ('M');
-		professor->setDOB ("26 June 2003");
+		professor->setDOB ("06/30/1980");
 		professor->setEmpID ("E83434");
 		professor->setDep ("Computer Science");
 		professor->setDegree ("PhD in Computer Science");
@@ -33,9 +33,9 @@ int main ()
 	if (student != nullptr)
 	{
 		student->setGPA (3.5);
-		student->setAddress ("123 Street Somewhere in California");
+		student->setAddress ("1234 Elm Street");
 		student->setGender ('F');
-		student->setDOB ("2nd July 2024");
+		student->setDOB ("02/02/2004");
 		student->setClassification ("Junior");
 		student->setHeight(56);
 		student->setID ("S374732");
@@ -43,19 +43,21 @@ int main ()
 		student->setFather (pointer[1]);
 	}
 
-	// Last person for copy constructor
-	pointer[3] = new personType (*pointer[0]);
-
-	cout << "All persons information\n";
+	cout << "-------------------------All persons information-------------------------\n";
 	pointer[0]->print();
 	professor->print();
 	student->print();
+
+	pointer[3] = new personType (*pointer[0]);
 	pointer[3]->print();
 
 	for (int i = 0; i < 4 ; i++)
 	{
+		if (pointer[i] != nullptr)
 		delete pointer[i];
 	}
+	cout << endl;
+	cout << "End of program\n";
 
   return 0;
 }

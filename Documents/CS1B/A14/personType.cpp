@@ -1,5 +1,6 @@
 #include <iostream>
 #include <iomanip>
+#include <string>
 #include "personType.h"
 using namespace std;
 
@@ -107,6 +108,7 @@ personType:: ~personType ()
 	cout << fName << " " << lName << " object destroyed...\n";
 	if (mother != nullptr)
 	delete mother;
+
 	if (father != nullptr)
 	delete father;
 }
@@ -114,7 +116,46 @@ personType:: ~personType ()
 // print function
 void personType :: print () const
 {
-	cout << "Name    : " << getFName() << " " << getLName() << endl;
+	string fullName = "";
+	cout << endl;
+	cout << left << setw(15) << "Full Name" << left << setw(20) << "Address" << left << setw(10) << "Gender";
+	cout << left << setw(12) << "DOB" << left << setw(13) << "Height" << left << setw(20) << "Mother's Name";
+	cout << left << setw(20) << "Father's Name" << endl;
+
+	fullName.append (getFName());
+	fullName.append (" ");
+	fullName.append (getLName());
+ 	cout << left << setw (15) << fullName;
+	cout << left << setw(20) << getAddress() ;
+	cout << left << setw(10) << getGender();
+	cout << left << setw(12) << getDOB ();
+	cout << right << setw(4) << getHeight() << "inches   ";
+	if (mother != nullptr)
+	{
+		fullName = "";
+		fullName.append (mother->getFName());
+		fullName.append (" ");
+		fullName.append (mother->getLName());
+
+		cout << left << setw(20) << fullName;
+	}
+	else
+		cout << left << setw (20) << "Unknown";
+
+	if (father != nullptr)
+	{
+		fullName ="";
+		fullName.append (father->getFName());
+		fullName.append (" ");
+		fullName.append (father->getLName());
+		cout << left << setw(20) << fullName;
+	}
+
+	else
+		cout << left << setw (20) << "Unknown\n";
+
+
+	/*cout << "Name    : " << getFName() << " " << getLName() << endl;
 	cout << "Address : " << getAddress() << endl;
 	cout << "Gender  : " << getGender() << endl;
 	cout << "DOB     : " << getDOB () << endl;
@@ -132,7 +173,7 @@ void personType :: print () const
 	}
 
 	else
-	cout << "Father Name : Unknown\n";
+	cout << "Father Name : Unknown\n";*/
 
 }
 

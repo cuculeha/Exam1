@@ -128,8 +128,8 @@ personType:: ~personType ()
 // print function
 void personType :: print () const
 {
+	cout << fixed << setprecision(1);
 	string fullName = "";
-	cout << endl;
 	cout << left << setw(15) << "Full Name" << left << setw(20) << "Address" << left << setw(10) << "Gender";
 	cout << left << setw(12) << "DOB" << left << setw(13) << "Height" << left << setw(20) << "Mother's Name";
 	cout << left << setw(20) << "Father's Name" << endl;
@@ -166,7 +166,7 @@ void personType :: print () const
 	else
 		cout << left << setw (20) << "Unknown\n";
 
-
+	cout << endl;
 	/*cout << "Name    : " << getFName() << " " << getLName() << endl;
 	cout << "Address : " << getAddress() << endl;
 	cout << "Gender  : " << getGender() << endl;

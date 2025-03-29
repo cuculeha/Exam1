@@ -43,16 +43,24 @@ int main ()
 		student->setFather (pointer[1]);
 	}
 
-	cout << "-------------------------All persons information-------------------------\n";
+	cout << "--------------------------------All persons information--------------------------------\n";
+	cout << "----------> First Person(personType) is someone's mom\n";
 	pointer[0]->print();
+	cout << "----------> Second Person(professorType) is someone's dad\n";
 	professor->print();
+	cout << "----------> Third Person(studentType) is student with mom and dad\n";
 	student->print();
 
-	pointer[3] = new personType (*pointer[0]);
+	cout << "----------> Fourth Person(personType) is a copy of studentType from above\n";
+	pointer[3] = new personType (*student);
 	pointer[3]->print();
-	
-	delete professor;
-	delete student;
+
+	cout << endl;
+	if (student!=nullptr)
+	{
+	student->setMother(nullptr);
+	student->setFather(nullptr);
+	}
 
 	for (int i = 0; i < 4 ; i++)
 	{
@@ -60,7 +68,6 @@ int main ()
 		{
 		delete pointer[i];
 		pointer[i] = nullptr;
-		cout << "Hello\n";
 		}
 	}
 	cout << endl;

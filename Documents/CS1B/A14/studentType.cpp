@@ -67,12 +67,12 @@ studentType:: studentType(string fName, string lName, double studentGPA, string 
 void studentType :: print () const
 {
   personType::print ();
-
 	cout << endl;
 	cout << left << setw (7) << "GPA" << left << setw (15) << "Student ID" << "Classification\n";
 	cout << left << setw(7) << getGPA ();
 	cout << left << setw (15) << getID();
 	cout << getClassification() << endl;
+	cout << endl;
 	/*
   cout << "Student GPA    : " << getGPA() << endl;
   cout << "Student ID     : " << getID() << endl;

@@ -38,11 +38,11 @@ string professorType :: getDegree () const
 void professorType :: print () const
 {
 	personType::print();
-	cout << endl;
 	cout << left << setw (15) << "Employee ID" << left << setw (20) << "Department" << "Degree\n";
 	cout << left << setw (15) << getEmpID() ;
 	cout << left << setw (20) << getDep();
 	cout << getDegree () << endl;
+	cout << endl;
 /*
 	cout << "Employee ID : " << getEmpID()<< endl;
 	cout << "Department  : " << getDep() << endl;

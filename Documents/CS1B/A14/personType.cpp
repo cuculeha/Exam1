@@ -67,6 +67,12 @@ personType::personType (string firstName, string lastName)
 {
 	fName = firstName;
 	lName = lastName;
+	address = "UNSET";
+	gender = 'X';
+	DOB = "UNSET";
+	height = 10;
+	mother = nullptr;
+	father = nullptr;
 }
 
 personType::personType (string firstName, string lastName, string addr, char gen, string bdate, double ht,

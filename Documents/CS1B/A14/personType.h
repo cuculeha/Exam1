@@ -37,7 +37,7 @@ class personType
 	// copy constructor
 	personType (const personType &another);
 	//Destructor
-	~personType();
+	virtual~personType();
 
 	// Print function
 	void print () const;

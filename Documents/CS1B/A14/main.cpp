@@ -14,7 +14,7 @@ int main ()
 
 	//Second person with professorType (will be someone's dad)
 	pointer[1] = new professorType ("Robert", "Elijah");
-	professorType* professor = static_cast<professorType*>(pointer[1]);
+	personType* professor = dynamic_cast<professorType*>(pointer[1]);
 	if (professor != nullptr )
 	{
 		professor->setAddress ("123 Alicia Pkwy");
@@ -28,13 +28,13 @@ int main ()
 
 	// Third person (student) that has a mother of personType above and father of professorType.
 	pointer[2] = new studentType ("John", "Dora");
-	studentType* student = static_cast<studentType*>(pointer[2]);
+	personType* student = dynamic_cast<studentType*>(pointer[2]);
 
 	if (student != nullptr)
 	{
 		student->setGPA (3.5);
 		student->setAddress ("1234 Elm Street");
-		student->setGender ('F');
+		student->setGender ('M');
 		student->setDOB ("02/02/2004");
 		student->setClassification ("Junior");
 		student->setHeight(56);
@@ -55,6 +55,7 @@ int main ()
 	{
 		if (pointer[i] != nullptr)
 		delete pointer[i];
+		pointer[i] = nullptr;
 	}
 	cout << endl;
 	cout << "End of program\n";

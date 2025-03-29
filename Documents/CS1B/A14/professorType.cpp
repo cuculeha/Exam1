@@ -4,36 +4,12 @@
 #include "professorType.h"
 using namespace std;
 
-void professorType:: setEmpID (string EmpID)
-{
-	employeeID = EmpID;
-}
-
-void professorType:: setDep (string dpt)
-{
-	department = dpt;
-}
-
-void professorType:: setDegree (string dg)
-{
-	degree = dg;
-}
-
-string professorType :: getEmpID () const
-{
-	return employeeID;
-}
-
-string professorType :: getDep () const
-{
-	return department;
-}
-
-string professorType :: getDegree () const
-{
-	return degree;
-}
-
+void professorType:: setEmpID (string EmpID) {	employeeID = EmpID;	}
+void professorType:: setDep (string dpt)	{	department = dpt;	}
+void professorType:: setDegree (string dg){	degree = dg;	}
+string professorType :: getEmpID () const	{	return employeeID;	}
+string professorType :: getDep () const	{	return department;	}
+string professorType :: getDegree () const	{	return degree;	}
 
 void professorType :: print () const
 {

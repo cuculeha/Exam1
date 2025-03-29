@@ -10,14 +10,14 @@ int main ()
 	personType *pointer[4];
 
 	// First person with personType (will be someone's mom)
-	pointer[0] = new personType("Alicia", "Mark", "821 Calle Campana", 'F', "02/03/2003", 56.7, nullptr, nullptr);
+	pointer[0] = new personType("Alicia", "Mark", "42 Maple Dr", 'F', "02/03/2003", 56.7, nullptr, nullptr);
 
 	//Second person with professorType (will be someone's dad)
 	pointer[1] = new professorType ("Robert", "Elijah");
 	professorType* professor = dynamic_cast<professorType*>(pointer[1]);
 	if (professor != nullptr )
 	{
-		professor->setAddress ("123 Alicia Pkwy");
+		professor->setAddress ("123 New York City");
 		professor->setGender ('M');
 		professor->setDOB ("06/30/1980");
 		professor->setEmpID ("E83434");
@@ -35,7 +35,7 @@ int main ()
 		student->setGPA (3.5);
 		student->setAddress ("1234 Elm Street");
 		student->setGender ('M');
-		student->setDOB ("02/02/2004");
+		student->setDOB ("02/02/2010");
 		student->setClassification ("Junior");
 		student->setHeight(56);
 		student->setID ("S374732");
@@ -52,14 +52,18 @@ int main ()
 	student->print();
 
 	cout << "----------> Fourth Person(personType) is a copy of studentType from above\n";
-	pointer[3] = new personType (*student);
+	pointer[3] = new personType (*pointer[2]);
 	pointer[3]->print();
 
 	cout << endl;
-	if (student!=nullptr)
-	{
+	if (student!=nullptr){
 	student->setMother(nullptr);
 	student->setFather(nullptr);
+	}
+
+	if (pointer[3]!= nullptr){
+		pointer[3]->setMother(nullptr);
+		pointer[3]->setFather(nullptr);
 	}
 
 	for (int i = 0; i < 4 ; i++)
@@ -70,8 +74,7 @@ int main ()
 		pointer[i] = nullptr;
 		}
 	}
-	cout << endl;
-	cout << "End of program\n";
+	cout << "Finally.. worth the time.. End of program\n";
 
   return 0;
 }

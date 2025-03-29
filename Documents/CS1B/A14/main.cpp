@@ -57,6 +57,7 @@ int main ()
 		{
 		delete pointer[i];
 		pointer[i] = nullptr;
+		cout << "Hello\n";
 		}
 	}
 	cout << endl;

@@ -19,7 +19,7 @@ public:
   studentType();
   studentType(string fName, string lName);
   studentType(string fName, string lName, double studentGPA, string studentID, string studentCLS);
-
+	~studentType();
   void print()  const;
   bool equalData (const studentType &another) const;
 

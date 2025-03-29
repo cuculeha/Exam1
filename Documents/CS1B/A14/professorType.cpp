@@ -73,7 +73,9 @@ professorType::professorType()
 professorType:: professorType (string fn, string ln)
 					: personType (fn, ln)
 {
-// empty
+	employeeID = "";
+	department = "";
+	degree = "";
 }
 
 professorType :: professorType (string fn, string ln, string addr, double ht, string bdate,
@@ -83,4 +85,9 @@ professorType :: professorType (string fn, string ln, string addr, double ht, st
 	employeeID = id;
 	department = dpt;
 	degree = dg;
+}
+
+professorType:: ~professorType()
+{
+
 }

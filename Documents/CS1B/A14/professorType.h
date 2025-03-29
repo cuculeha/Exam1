@@ -19,7 +19,7 @@ public:
 	professorType (string fn, string ln);
 	professorType (string fn, string ln, string addr, double ht, 
 						string bdate, char gender, string id, string dpt, string dg, personType *mom, personType *dad);
-
+	~professorType();
 	// Print methods
 	void print () const;
 	

@@ -35,6 +35,10 @@ string studentType :: getClassification() const
   return classification;
 }
 
+studentType:: ~studentType()
+{
+
+}
 
 studentType:: studentType()
 {
@@ -62,7 +66,7 @@ studentType:: studentType(string fName, string lName, double studentGPA, string 
 
 void studentType :: print () const
 {
-  personType :: print ();
+  personType::print ();
 
 	cout << endl;
 	cout << left << setw (7) << "GPA" << left << setw (15) << "Student ID" << "Classification\n";

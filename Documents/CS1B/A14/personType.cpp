@@ -113,10 +113,16 @@ personType:: ~personType ()
 {
 	cout << fName << " " << lName << " object destroyed...\n";
 	if (mother != nullptr)
+	{
 	delete mother;
+	mother = nullptr;
+	}
 
 	if (father != nullptr)
+	{
 	delete father;
+	mother = nullptr;
+	}
 }
 
 // print function

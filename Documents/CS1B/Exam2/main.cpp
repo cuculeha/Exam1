@@ -212,10 +212,11 @@ void addNewStudent(studentType**& students, studentType* newStudent)
 {
 
 	studentType** newArray = new studentType*[studentType::getStudentCount() + 1];
-
+		if (students != nullptr){
 		for (int i = 0; i < studentType::getStudentCount(); ++i) {
         newArray[i] = students[i];
     }
+	}
 		newArray[studentType::getStudentCount()] = newStudent;
 		delete[] students;
 		students = newArray;
@@ -226,10 +227,11 @@ void addNewProf (professorType**& professors, professorType* newProfessor)
 {
 
 	professorType** newArray = new professorType*[professorType::getProfCount() + 1];
-
+		if (professors != nullptr){
 		for (int i = 0; i < professorType::getProfCount(); ++i) {
         newArray[i] = professors[i];
     }
+		}
 		newArray[professorType::getProfCount()] = newProfessor;
 		delete[] professors;
 		professors = newArray;
@@ -240,10 +242,11 @@ void addNewCourse(courseType**& courses, courseType* newCourse)
 {
 
 	courseType** newArray = new courseType*[courseType::getCourseCount() + 1];
-
+		if (courses != nullptr){
 		for (int i = 0; i < courseType::getCourseCount(); ++i) {
         newArray[i] = courses[i];
     }
+	}
 		newArray[courseType::getCourseCount()] = newCourse;
 		delete[] courses;
 		courses = newArray;

@@ -1,8 +1,6 @@
 #include <iostream>
 #include <cstdlib>
 #include <string>
-#include <cstdlib>
-#include <cstdlib>
 #include <fstream>
 #include <limits>
 #include "personType.h"
@@ -15,9 +13,9 @@ using namespace std;
 char showMainMenu ();
 char addDataManually ();
 void readFile (const string &input);
-void createNewStudent ();
-void createNewProfessor ();
-void createNewCourse ();
+void addNewStudent ();
+void addNewProfessor ();
+void addNewCourse ();
 
 int main ()
 {
@@ -35,6 +33,7 @@ int main ()
 
 			case '1':
 			cout << "Selected Option 1\n";
+			readFile("input.txt");
 			break;
 
 			case '2':
@@ -75,14 +74,10 @@ int main ()
 			cout << "Selected Option 8\n";
 			break;
 
-			case '9':
-			cout << "Selected Option 9\n";
-			break;
 		}
 	}
 	while (choice != '0');
 	return 0;
-	system ("clear");
 }
 
 
@@ -170,8 +165,8 @@ void readFile (const string &input)
 		}
 
 		else if (keyword == "Student Type"){
-				personType *p = new studentType();
-				infile >> *(dynamic_cast<studentType*>(p));
+				studentType s;
+				infile >> s;
 				cout << "Student Type..\n";
 		}
 		else if (keyword == "CourseType"){
@@ -180,4 +175,14 @@ void readFile (const string &input)
 		else
 		cout << "Unknown Type\n";
 	}
+}
+
+
+void addNewStudent (studentType* &pointer);
+{
+	personType** newPeople = new studentType* [studentType::studentCount + 1]
+	for (int i = 0; i < studentType::studentCount + 1; i ++)
+		{
+			people[i] = pointe;
+		}
 }

@@ -1,9 +1,9 @@
-Student Type
+StudentType
 Saliha Babar
 123 Main Street
 67
 2nd July 2025
-4
+5.9
 S8582
 Sophomore
 

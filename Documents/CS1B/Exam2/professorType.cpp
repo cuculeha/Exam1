@@ -4,6 +4,7 @@
 #include "personType.h"
 #include "professorType.h"
 using namespace std;
+int professorType::profCount = 0;
 
 // Setters
 void professorType:: setEmpID (string EmpID) {	employeeID = EmpID;	}
@@ -35,6 +36,7 @@ professorType::professorType()
 	employeeID = "";
 	department = "";
 	degree = "";
+	profCount++;
 }
 
 professorType:: professorType (string fn, string ln)
@@ -47,6 +49,7 @@ professorType:: professorType (string fn, string ln)
 	employeeID = "";
 	department = "";
 	degree = "";
+	profCount++;
 }
 
 professorType :: professorType (string fn, string ln, string addr, double ht, string bdate,
@@ -60,6 +63,7 @@ professorType :: professorType (string fn, string ln, string addr, double ht, st
 	employeeID = id;
 	department = dpt;
 	degree = dg;
+	profCount++;
 }
 
 professorType:: ~professorType()
@@ -78,4 +82,55 @@ void professorType :: teachCourse (courseType *newCourse )
 	cout << "A professor can only add up to 5 courses to teach. Press Enter to continue\n";
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	}	
+}
+
+
+istream &operator>> (istream &in, professorType &obj)
+{
+	string full;
+	string fName = "";
+	string lName = "";
+	string address;
+	double height;
+	string dob;
+	string id;
+	string dpt;
+	string dg;
+
+	cout << "\nFull Name : ";
+	getline (in, full);
+	// Separate the full name to first and last
+	int position;
+	position = full.find(" ");
+	fName.append (full, 0, position);
+	lName.append(full, position+1);
+	obj.setFName(fName);
+	obj.setLName(lName);
+
+	cout << "\nAddress : ";
+	getline (in, address);
+	obj.setAddress(address);
+
+	cout << "\nHeight : ";
+	in >> height;
+	obj.setHeight(height);
+	in.ignore();
+
+	cout << "\nDOB : ";
+	getline (in, dob );
+	obj.setDOB(dob);
+
+	cout << "\nEmployee ID : ";
+	getline (in, id );
+	obj.setEmpID(id);
+
+	cout << "\nDepartment : ";
+	getline (in, dpt );
+	obj.setDep(dpt);
+
+	cout << "\nDegree : ";
+	getline (in, dg);
+	obj.setDegree(dg);
+
+	return in;
 }

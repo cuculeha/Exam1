@@ -44,7 +44,6 @@ char personType :: getGender () const	{	return gender;	}
 // Constructors
 personType::personType ()
 {
-	cout << "Created new object using default constructor, address " << this << endl;
 	fName = "UNSET";
 	lName = "UNSET";
 	address = "UNSET";

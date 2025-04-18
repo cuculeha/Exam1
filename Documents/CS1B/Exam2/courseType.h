@@ -8,7 +8,7 @@ using namespace std;
 class courseType
 {
 
-	friend ostream &operator<< (ostream &out, const courseType& obj);
+	friend istream &operator>> (istream &in, courseType& obj);
 	public:
 	// Setters
 	void setSecID (string secID);
@@ -30,7 +30,7 @@ class courseType
 	int getCapacity () const;
 	int getEnrolledCount () const;
 	int getNumProf () const;
-
+	static int getCourseCount() { return courseCount; }
 	static int getCensus () { return census; }
 
 	// Constructors
@@ -51,7 +51,8 @@ class courseType
 	int capacity;
 	int enrolledCount;
 	int numInstructors;
+	static int courseCount;
 	static int census;
-
+	
 };
 #endif

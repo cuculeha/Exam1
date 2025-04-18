@@ -3,6 +3,7 @@
 using namespace std;
 
 int courseType:: census = 0;
+int courseType:: courseCount = 0;
 
 // Setters
 void courseType :: setSecID (string secID)	{ section = secID ;	}
@@ -35,6 +36,7 @@ courseType::courseType ()
 	enrolledCount = 0;
 	numInstructors = 0;
 	++census;
+	++courseCount;
 }
 
 courseType:: ~courseType ()
@@ -53,7 +55,8 @@ istream &operator>> (istream &in, courseType &obj)
 	string title = "";
 	string time = "";
 	string days = "";
-	
+	string room = "";
+
 	cout << "┌──────────────────────────────────────────────────────────────────┐\n";
 	cout << "│               Adding a new course in Saddleback College          │\n";
 	cout << "└──────────────────────────────────────────────────────────────────┘\n";
@@ -71,6 +74,10 @@ istream &operator>> (istream &in, courseType &obj)
 	obj.setDays(days);
 
 	cout << "\nCourse Time : ";
+	getline (in, time);
+	obj.setTime(time);
+
+	cout << "\nClassroom : ";
 	getline (in, time);
 	obj.setTime(time);
 

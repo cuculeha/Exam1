@@ -12,18 +12,22 @@ using namespace std;
 
 char showMainMenu ();
 char addDataManually ();
-void readFile (const string &input);
-void addNewStudent ();
-void addNewProfessor ();
-void addNewCourse ();
+void readFile (const string &input, studentType** &students, professorType** &professors, courseType** &courses);
+void addNewStudent(studentType**& students, studentType* newStudent);
+void addNewProf (professorType** &professors, professorType* newProfessor);
+void addNewCourse (courseType** &courses, courseType* newCourse);
 
 int main ()
 {
 
-	personType** people = nullptr;
+	//personType** people = nullptr;
 	studentType** students = nullptr;
 	professorType** professors = nullptr;
 	courseType** courses = nullptr;
+
+	studentType *tempStudent = nullptr;
+	professorType *tempProf = nullptr;
+	courseType *tempCourse = nullptr;
 
 	char choice;
 	char toAddManually;
@@ -37,7 +41,7 @@ int main ()
 
 			case '1':
 			cout << "Selected Option 1\n";
-			readFile("input.txt");
+			readFile("input.txt", students, professors, courses);
 			break;
 
 			case '2':
@@ -46,10 +50,23 @@ int main ()
 				switch (toAddManually){
 					case '1':
 					cout << "Creating a student type...\n";
+					tempStudent = new studentType ();
+					cin >> *tempStudent;
+					addNewStudent (students, tempStudent);
 					break;
 
 					case '2':
 					cout << "Creating professorType..\n";
+					tempProf = new professorType ();
+					cin >> *tempProf;
+					addNewProf (professors, tempProf);
+					break;
+
+					case '3':
+					cout << "Creating courseType..\n";
+					tempCourse = new courseType ();
+					cin >> *tempCourse;
+					addNewCourse (courses, tempCourse);
 					break;
 				};
 			break;
@@ -89,7 +106,7 @@ char showMainMenu ()
 {
 	char choice;
 
-	system ("clear");
+	//system ("clear");
 	setColour(96);
 	cout << "┌──────────────────────────────────────────────────────────────────┐\n";
 	cout << "│                       Course EnrollMent System                   │\n";
@@ -124,7 +141,7 @@ char addDataManually ()
 {
 	char choice;
 
-	system ("clear");
+	//system ("clear");
 	setColour(32);
 	cout << "┌──────────────────────────────────────────────────────────────────┐\n";
 	cout << "│                         Manual Data Entry Menu                   │\n";
@@ -151,7 +168,7 @@ char addDataManually ()
 	return choice;
 }
 
-void readFile (const string &input)
+void readFile (const string &input, studentType** &students, professorType** &professors, courseType** &courses)
 {
 	ifstream infile(input);
 	studentType *tempStudent = nullptr;
@@ -167,15 +184,18 @@ void readFile (const string &input)
 	string keyword;
 	while (getline(infile,keyword))
 	{
-		if (keyword == "Professor Type"){
+		if (keyword == "ProfessorType"){
 				cout << "Professor Type\n";
 				tempProf = new professorType();
 				infile >> *tempProf;
+				addNewProf (professors, tempProf);
 		}
 
-		else if (keyword == "Student Type"){
-				tempStudent = new StudentType();
+		else if (keyword == "StudentType"){
+				tempStudent = new studentType();
 				infile >> *tempStudent;
+				addNewStudent (students, tempStudent);
+
 		}
 
 		else if (keyword == "CourseType"){
@@ -188,12 +208,43 @@ void readFile (const string &input)
 	}
 }
 
-
-void addNewStudent (studentType* &studentPtr)
+void addNewStudent(studentType**& students, studentType* newStudent)
 {
-	personType** newStudent = new studentType* [studentType::studentCount + 1]
-	for (int i = 0; i < studentType::studentCount + 1; i ++)
-		{
-			newStudent[i] = pointe;
-		}
+
+	studentType** newArray = new studentType*[studentType::getStudentCount() + 1];
+
+		for (int i = 0; i < studentType::getStudentCount(); ++i) {
+        newArray[i] = students[i];
+    }
+		newArray[studentType::getStudentCount()] = newStudent;
+		delete[] students;
+		students = newArray;
+}
+
+
+void addNewProf (professorType**& professors, professorType* newProfessor)
+{
+
+	professorType** newArray = new professorType*[professorType::getProfCount() + 1];
+
+		for (int i = 0; i < professorType::getProfCount(); ++i) {
+        newArray[i] = professors[i];
+    }
+		newArray[professorType::getProfCount()] = newProfessor;
+		delete[] professors;
+		professors = newArray;
+}
+
+
+void addNewCourse(courseType**& courses, courseType* newCourse)
+{
+
+	courseType** newArray = new courseType*[courseType::getCourseCount() + 1];
+
+		for (int i = 0; i < courseType::getCourseCount(); ++i) {
+        newArray[i] = courses[i];
+    }
+		newArray[courseType::getCourseCount()] = newCourse;
+		delete[] courses;
+		courses = newArray;
 }

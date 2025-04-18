@@ -27,7 +27,6 @@ studentType:: studentType()
 	gpa = 2.5;
 	id = "";
 	classification = "";
-	++studentCount;
 }
 
 studentType::studentType(string fName, string lName)
@@ -36,7 +35,6 @@ studentType::studentType(string fName, string lName)
 	gpa = 2.5;
 	id = "";
 	classification = "";
-	++studentCount;
 }
 studentType:: studentType(string fName, string lName, double studentGPA, string studentID, string studentCLS)
             : personType (fName, lName)
@@ -46,7 +44,6 @@ studentType:: studentType(string fName, string lName, double studentGPA, string 
 
   id = studentID;
   classification = studentCLS;
-	++studentCount;
 }
 
 void studentType :: print () const
@@ -58,11 +55,7 @@ void studentType :: print () const
 	cout << left << setw (15) << getID();
 	cout << getClassification() << endl;
 	cout << endl;
-	/*
-  cout << "Student GPA    : " << getGPA() << endl;
-  cout << "Student ID     : " << getID() << endl;
-  cout << "Classification : " << getClassification() << endl; */
-}
+  }
 
 // Add course in a student
 void studentType :: addCourse (courseType *newCourse)

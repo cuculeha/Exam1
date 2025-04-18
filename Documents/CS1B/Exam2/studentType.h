@@ -17,7 +17,7 @@ public:
 	void setGPA (double studentGPA);  
 	void setID (string studentID);
 	void setClassification (string studentCLS);
-	static void incStudentCount () 	{	studentCount++; 	}
+	static void incStudentCount () 	{	++studentCount; 	}
 	void addCourse (courseType *newCourse );
 
 	double getGPA() const;

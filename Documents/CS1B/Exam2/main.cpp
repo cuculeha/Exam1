@@ -149,7 +149,7 @@ char addDataManually ()
 	cout << "│     (1) -   Add A New Student                                    │\n";
 	cout << "│     (2) -   Add a New Professor                                  │\n";
 	cout << "│     (3) -   Add a New Course                                     │\n";
-	cout << "│     (4) -   Enroll and existing student in a course              │\n";
+	cout << "│     (4) -   Enroll an existing student in a course               │\n";
 	cout << "│     (5) -   Assign an exising professor to a course              │\n";
 	cout << "├──────────────────────────────────────────────────────────────────┤\n";
 	cout << "│     (0) -   Quit and Back To Main Menu                           │\n";
@@ -210,7 +210,7 @@ void readFile (const string &input, studentType** &students, professorType** &pr
 
 void addNewStudent(studentType**& students, studentType* newStudent)
 {
-
+	cout << "Student type count: " << studentType::getStudentCount();
 	studentType** newArray = new studentType*[studentType::getStudentCount() + 1];
 		if (students != nullptr){
 		for (int i = 0; i < studentType::getStudentCount(); ++i) {
@@ -220,6 +220,7 @@ void addNewStudent(studentType**& students, studentType* newStudent)
 		newArray[studentType::getStudentCount()] = newStudent;
 		delete[] students;
 		students = newArray;
+		studentType::incStudentCount();
 }
 
 

@@ -21,6 +21,10 @@ int main ()
 {
 
 	personType** people = nullptr;
+	studentType** students = nullptr;
+	professorType** professors = nullptr;
+	courseType** courses = nullptr;
+
 	char choice;
 	char toAddManually;
 	do {
@@ -150,7 +154,10 @@ char addDataManually ()
 void readFile (const string &input)
 {
 	ifstream infile(input);
-	
+	studentType *tempStudent = nullptr;
+	professorType *tempProf = nullptr;
+	courseType *tempCourse = nullptr;
+
 	if (!infile){
 		cout << "Failed to open the file..Press Enter to Continue\n";
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -162,15 +169,19 @@ void readFile (const string &input)
 	{
 		if (keyword == "Professor Type"){
 				cout << "Professor Type\n";
+				tempProf = new professorType();
+				infile >> *tempProf;
 		}
 
 		else if (keyword == "Student Type"){
-				studentType s;
-				infile >> s;
-				cout << "Student Type..\n";
+				tempStudent = new StudentType();
+				infile >> *tempStudent;
 		}
+
 		else if (keyword == "CourseType"){
 			cout << "created courseType";
+			tempCourse = new courseType ();
+			infile >> *tempCourse;
 		}
 		else
 		cout << "Unknown Type\n";
@@ -178,11 +189,11 @@ void readFile (const string &input)
 }
 
 
-void addNewStudent (studentType* &pointer);
+void addNewStudent (studentType* &studentPtr)
 {
-	personType** newPeople = new studentType* [studentType::studentCount + 1]
+	personType** newStudent = new studentType* [studentType::studentCount + 1]
 	for (int i = 0; i < studentType::studentCount + 1; i ++)
 		{
-			people[i] = pointe;
+			newStudent[i] = pointe;
 		}
 }

@@ -16,6 +16,7 @@ void readFile (const string &input, studentType** &students, professorType** &pr
 void addNewStudent(studentType**& students, studentType* newStudent);
 void addNewProf (professorType** &professors, professorType* newProfessor);
 void addNewCourse (courseType** &courses, courseType* newCourse);
+void enrollStudent (studentType** students, courseType** courses);
 
 int main ()
 {
@@ -31,6 +32,8 @@ int main ()
 
 	char choice;
 	char toAddManually;
+	bool readFileAlready = false;
+
 	do {
 	choice = showMainMenu();
 		switch (choice)
@@ -40,34 +43,50 @@ int main ()
 			break;
 
 			case '1':
-			cout << "Selected Option 1\n";
+			if (readFileAlready == false){
 			readFile("input.txt", students, professors, courses);
+			readFileAlready = true;
+			}
+
+			else{
+				cout << "Option 1 wont do anything since data from the file is already in system\n";
+				cout << "Press Enter to Continue\n";
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			}
 			break;
 
 			case '2':
 			toAddManually = addDataManually ();
-
+			system ("clear");
 				switch (toAddManually){
 					case '1':
-					cout << "Creating a student type...\n";
 					tempStudent = new studentType ();
 					cin >> *tempStudent;
 					addNewStudent (students, tempStudent);
+					cout << "Successfully Added a New Student in Saddleback College. Press Enter\n";
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
 					break;
 
 					case '2':
-					cout << "Creating professorType..\n";
 					tempProf = new professorType ();
 					cin >> *tempProf;
 					addNewProf (professors, tempProf);
+					cout << "Successfully Added a New Professor in Saddleback College. Press Enter\n";
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
 					break;
 
 					case '3':
-					cout << "Creating courseType..\n";
 					tempCourse = new courseType ();
 					cin >> *tempCourse;
 					addNewCourse (courses, tempCourse);
+					cout << "Successfully Added a New Course in Saddleback College. Press Enter\n";
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
 					break;
+
+					case '4':
+					enrollStudent (students, courses);
+					break;
+
 				};
 			break;
 
@@ -96,8 +115,22 @@ int main ()
 			break;
 
 		}
+		// Sort the data everytime the program repeats
+		SelectionSort (students ,studentType::getStudentCount());
+		SelectionSort (professors, professorType::getProfCount());
+		SelectionSort (courses, courseType:: getCourseCount(), [](courseType *a, courseType *b) 
+			{
+				return *a < *b;
+				});
 	}
 	while (choice != '0');
+
+	for (int i = 0; i < studentType::getStudentCount(); i++)
+		{
+			delete students[i];
+		}
+
+
 	return 0;
 }
 
@@ -106,7 +139,7 @@ char showMainMenu ()
 {
 	char choice;
 
-	//system ("clear");
+	system ("clear");
 	setColour(96);
 	cout << "┌──────────────────────────────────────────────────────────────────┐\n";
 	cout << "│                       Course EnrollMent System                   │\n";
@@ -141,7 +174,7 @@ char addDataManually ()
 {
 	char choice;
 
-	//system ("clear");
+	system ("clear");
 	setColour(32);
 	cout << "┌──────────────────────────────────────────────────────────────────┐\n";
 	cout << "│                         Manual Data Entry Menu                   │\n";
@@ -199,10 +232,18 @@ void readFile (const string &input, studentType** &students, professorType** &pr
 		}
 
 		else if (keyword == "CourseType"){
-			cout << "created courseType";
 			tempCourse = new courseType ();
 			infile >> *tempCourse;
 		}
+
+		else if (keyword == "End")
+			{	
+				cout << endl;
+				system("clear");
+				cout << "END OF FILE.. SUCCESSFULY READ DATA\n";
+				cout << "Press Enter to Continue\n";
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			}
 		else
 		cout << "Unknown Type\n";
 	}
@@ -210,7 +251,6 @@ void readFile (const string &input, studentType** &students, professorType** &pr
 
 void addNewStudent(studentType**& students, studentType* newStudent)
 {
-	cout << "Student type count: " << studentType::getStudentCount();
 	studentType** newArray = new studentType*[studentType::getStudentCount() + 1];
 		if (students != nullptr){
 		for (int i = 0; i < studentType::getStudentCount(); ++i) {
@@ -223,25 +263,23 @@ void addNewStudent(studentType**& students, studentType* newStudent)
 		studentType::incStudentCount();
 }
 
-
 void addNewProf (professorType**& professors, professorType* newProfessor)
 {
-
-	professorType** newArray = new professorType*[professorType::getProfCount() + 1];
+		professorType** newArray = new professorType*[professorType::getProfCount() + 1];
 		if (professors != nullptr){
 		for (int i = 0; i < professorType::getProfCount(); ++i) {
         newArray[i] = professors[i];
     }
-		}
+	}
 		newArray[professorType::getProfCount()] = newProfessor;
 		delete[] professors;
 		professors = newArray;
+		professorType::incProfCount();
 }
 
 
 void addNewCourse(courseType**& courses, courseType* newCourse)
 {
-
 	courseType** newArray = new courseType*[courseType::getCourseCount() + 1];
 		if (courses != nullptr){
 		for (int i = 0; i < courseType::getCourseCount(); ++i) {
@@ -251,4 +289,43 @@ void addNewCourse(courseType**& courses, courseType* newCourse)
 		newArray[courseType::getCourseCount()] = newCourse;
 		delete[] courses;
 		courses = newArray;
+		courseType::incCourseCount();
+}
+
+void enrollStudent (studentType** students, courseType** courses)
+{	
+	int studentIndex;
+	int courseIndex;
+
+	if (studentType::getStudentCount() == 0)
+		{
+			cout << "No Students available in system\n.. Add students first\n";
+			cout << "Press Enter to Continue\n";
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			return;
+	}
+
+	if (courseType::getCourseCount() == 0)
+		{
+			cout << "No Courses available in system.. Add Courses first\n";
+			cout << "Press Enter to Continue\n";
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			return;
+	}
+
+	// At this line, there are students and courses in the system..
+	// LookUp for students..
+
+	cout << "Search for students in Saddleback College\n";
+	studentIndex = searchObjectList(students, studentType::getStudentCount());
+
+	if (studentIndex != -1) // Means valid student is picked
+	{
+		cout << "Search for courses in Saddleback College\n";
+		courseIndex = searchObjectList(courses, courseType::getCourseCount());
+
+	}
+
+	// Enroll student in a course..
+	students[studentIndex]->addCourse(courses[courseIndex]);
 }

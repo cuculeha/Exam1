@@ -17,6 +17,30 @@ void SelectionSort(T arr[], int size, Compare comp = Compare()) {
     }
 }
 
+template <typename S>
+int searchObjectList (S** objects, int count)
+{
+	int position;
+
+	for (int i =0; i < count ; i++)
+	{
+		cout << i << "-" ;
+		objects[i]->print();
+	}
+
+	cout << "Choose anyone from the list above, enter integer carefully\n";
+	cout << "Enter 0 if you want to opt out\n";
+	cin >> position;
+	cin.ignore();
+
+	while (position < 0 || position > count )	{
+		cout << "Incorrect int input, enter again, only enter valid one\n";
+		cin >> position;
+		cin.ignore();
+	}
+	return position -1;
+
+}
 #endif
 
 #ifndef SETCOLOUR_H

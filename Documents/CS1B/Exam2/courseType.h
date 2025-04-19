@@ -19,6 +19,7 @@ class courseType
 	void setCapacity ( int cap );
 	void setEnrollmentCount ( int enrollCount );
 	void setNumProf ( int numProf );
+	static void incCourseCount() { courseCount++; }
 	static void incCensus () { census++ ; }
 
 	// Getters
@@ -41,7 +42,9 @@ class courseType
 
 	// Print function 
 	void print () const;
-
+	
+	// Operator Overloading
+	bool operator<(const courseType& b) const;
 	private:
 	string section;
 	string title;

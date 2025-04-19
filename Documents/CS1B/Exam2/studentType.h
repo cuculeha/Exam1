@@ -23,12 +23,10 @@ public:
 	double getGPA() const;
 	string getID() const;
 	string getClassification() const;
-	static int getStudentCount () 		{	return studentCount++;	}
+	static int getStudentCount () 		{	return studentCount;	}
 	int getCount () { return courseCount; }
 
 	studentType();
-	studentType(string fName, string lName);
-	studentType(string fName, string lName, double studentGPA, string studentID, string studentCLS);
 	~studentType();
 	void print() const override;
 
@@ -36,7 +34,7 @@ private:
   string id; //added every id 'should' be unique
 	double gpa;
 	string classification;
-	courseType *courses[3];
+	courseType *courses[5];
 	int courseCount;
 	static int studentCount;
 };

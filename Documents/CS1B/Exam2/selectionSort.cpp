@@ -1,5 +1,9 @@
 #include <iostream>
 #include "selectionSort.h"
+#include "courseType.h"
+#include "personType.h"
+#include "studentType.h"
+#include "professorType.h"
 #include <string>
 
 using namespace std;

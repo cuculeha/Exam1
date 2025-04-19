@@ -17,13 +17,11 @@ public:
 	string getDegree () const;
 	int getCount() const;
 	void teachCourse (courseType *newCourse);
-	static int getProfCount () 		{	return profCount++;	}
+	static int getProfCount () 		{	return profCount;	}
+	static void incProfCount() {	++profCount; }
 
 	// Constructors
 	professorType();
-	professorType (string fn, string ln);
-	professorType (string fn, string ln, string addr, double ht, 
-						string bdate, char gender, string id, string dpt, string dg );
 	~professorType();
 	// Print methods
 	void print() const override;
@@ -34,7 +32,7 @@ public:
 	string degree;
 	int courseCount;
 	static int profCount;
-	courseType *courses[5];
+	courseType *courses[3];
 }; 
 
 #endif

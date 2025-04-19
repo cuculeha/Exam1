@@ -6,5 +6,19 @@ Saliha Babar
 5.9
 S8582
 Sophomore
-
-
+StudentType
+Sidrah Babar
+615 Calle Campana
+65
+26 June 2003
+4.5
+F63473
+Junior
+CourseType
+COMPSCI 2
+Intro To Computer Science
+Mon - Wednesday
+5pm - 6.30pm
+ATAS230
+20
+End

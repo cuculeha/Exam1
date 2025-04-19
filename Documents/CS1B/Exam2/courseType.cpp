@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include "courseType.h"
 using namespace std;
 
@@ -32,11 +33,10 @@ courseType::courseType ()
 	days = "";
 	time = "";
 	room = "";
-	capacity = 20;
+	capacity = 0;
 	enrolledCount = 0;
 	numInstructors = 0;
 	++census;
-	++courseCount;
 }
 
 courseType:: ~courseType ()
@@ -46,7 +46,7 @@ courseType:: ~courseType ()
 
 void courseType :: print () const
 {
-	cout << "Course Type Print method here\n";
+	cout << left << setw(20) << getSecID () << " " << getTitle () << endl;
 }
 
 istream &operator>> (istream &in, courseType &obj)
@@ -56,13 +56,13 @@ istream &operator>> (istream &in, courseType &obj)
 	string time = "";
 	string days = "";
 	string room = "";
+	int quantity;
 
 	cout << "┌──────────────────────────────────────────────────────────────────┐\n";
 	cout << "│               Adding a new course in Saddleback College          │\n";
 	cout << "└──────────────────────────────────────────────────────────────────┘\n";
 	cout << "\nCourse Section ID : ";
 	getline (in, id);
-	in.ignore(10, '\n');
 	obj.setSecID(id);
 
 	cout << "\nCourse Title : ";
@@ -78,9 +78,18 @@ istream &operator>> (istream &in, courseType &obj)
 	obj.setTime(time);
 
 	cout << "\nClassroom : ";
-	getline (in, time);
-	obj.setTime(time);
-
+	getline (in, room);
+	obj.setRoom(room);
+	
+	cout << "\nMaximum Capacity: ";
+	cin >> quantity;
+	obj.setCapacity(quantity);
+	cin.ignore();
 	return in;
 
+}
+
+bool courseType:: operator< (const courseType& b) const
+{
+	return (getSecID() == b.getSecID());
 }

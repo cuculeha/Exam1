@@ -21,7 +21,7 @@ studentType:: ~studentType()	{	}
 
 studentType:: studentType()
 {
-	for (int i = 0; i < 3 ; i++)	{
+	for (int i = 0; i < 5 ; i++)	{
 		courses[i]= nullptr;	}
 	courseCount = 0;
 	gpa = 2.5;
@@ -29,43 +29,20 @@ studentType:: studentType()
 	classification = "";
 }
 
-studentType::studentType(string fName, string lName)
-            : personType (fName, lName)
+void studentType :: print() const
 {
-	gpa = 2.5;
-	id = "";
-	classification = "";
+	cout << left << setw(10) << getFName () << " " << setw(10) << getLName() << endl;
 }
-studentType:: studentType(string fName, string lName, double studentGPA, string studentID, string studentCLS)
-            : personType (fName, lName)
-{
-  if (studentGPA > 2.5 )
-    gpa = studentGPA;
-
-  id = studentID;
-  classification = studentCLS;
-}
-
-void studentType :: print () const
-{
-  	cout << "Call for personType details\n";
-	cout << endl;
-	cout << left << setw (7) << "GPA" << left << setw (15) << "Student ID" << "Classification\n";
-	cout << left << setw(7) << getGPA ();
-	cout << left << setw (15) << getID();
-	cout << getClassification() << endl;
-	cout << endl;
-  }
 
 // Add course in a student
 void studentType :: addCourse (courseType *newCourse)
 {
-	if (courseCount < 3) {
+	if (courseCount < 5) {
 			courses[courseCount] = newCourse;
 			courseCount++;
 	}
 	else{
-	cout << "A student can only add up to 3 courses. Press Enter to Continue\n";
+	cout << "Cannot enroll student: maximum course load of 5 reached. Press Enter to Continue\n";
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	}
 

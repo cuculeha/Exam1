@@ -2,6 +2,7 @@
 #define SELECTIONSORT_H
 
 #include <string>
+#include <iomanip>
 
 template <typename T, typename Compare = std::less<T>>
 
@@ -21,14 +22,15 @@ template <typename S>
 int searchObjectList (S** objects, int count)
 {
 	int position;
-
+	cout << left << setw (3) <<"No." << left << setw (10) << "First Name " << left << setw(10) << "Last Name\n";
+	
 	for (int i =0; i < count ; i++)
 	{
-		cout << i << "-" ;
+		cout << i + 1 << "-" ;
 		objects[i]->print();
 	}
 
-	cout << "Choose anyone from the list above, enter integer carefully\n";
+	cout << "Choose anyone from the list above, enter your choice carefully\n";
 	cout << "Enter 0 if you want to opt out\n";
 	cin >> position;
 	cin.ignore();

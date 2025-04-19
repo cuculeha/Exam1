@@ -82,11 +82,11 @@ istream &operator>> (istream &in, courseType &obj)
 	obj.setRoom(room);
 	
 	cout << "\nMaximum Capacity: ";
-	cin >> quantity;
+	in >> quantity;
 	obj.setCapacity(quantity);
-	cin.ignore();
-	return in;
+	in.ignore();
 
+	return in;
 }
 
 bool courseType:: operator< (const courseType& b) const

@@ -15,10 +15,18 @@ Sidrah Babar
 F63473
 Junior
 CourseType
-COMPSCI 2
-Intro To Computer Science
-Mon - Wednesday
+CS 1B
+Introduction To Computer Science
+Mon and Wednesday
 5pm - 6.30pm
 ATAS230
 20
+ProfessorType
+Carl Argila
+123 Somewhere in USA
+56.7
+3rd August 1960
+E3473
+Computer Science
+Bachelor in Computer Science
 End

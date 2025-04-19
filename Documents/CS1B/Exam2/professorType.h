@@ -10,7 +10,7 @@ public:
 	void setEmpID (string EmpID);
 	void setDep (string dpt);
 	void setDegree (string dg);
-
+	void incCourseCount() {	courseCount++; }
 	// Getters
 	string getEmpID () const;
 	string getDep () const;

@@ -19,6 +19,7 @@ public:
 	void setClassification (string studentCLS);
 	static void incStudentCount () 	{	++studentCount; 	}
 	void addCourse (courseType *newCourse );
+	void incCourseCount() { courseCount++; };
 
 	double getGPA() const;
 	string getID() const;
@@ -29,6 +30,7 @@ public:
 	studentType();
 	~studentType();
 	void print() const override;
+	void printByRow () const;
 
 private:
   string id; //added every id 'should' be unique

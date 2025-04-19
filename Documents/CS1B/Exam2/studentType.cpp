@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <limits>
+#include <string>
 #include "personType.h"
 #include "studentType.h"
 #include "courseType.h"
@@ -22,7 +23,7 @@ studentType:: ~studentType()	{	}
 studentType:: studentType()
 {
 	for (int i = 0; i < 5 ; i++)	{
-		courses[i]= nullptr;	}
+	courses[i]= nullptr;	}
 	courseCount = 0;
 	gpa = 2.5;
 	id = "";
@@ -34,6 +35,39 @@ void studentType :: print() const
 	cout << left << setw(10) << getFName () << " " << setw(10) << getLName() << endl;
 }
 
+void studentType::printByRow() const
+{
+    string fullName = getLName() + ", " + getFName();
+    string shortClass = getClassification().substr(0, 2);
+
+    // First line - student info
+    cout << "│" << left << setw(20) << fullName
+         << "| " << left << setw(10) << getID()
+         << "| " << left << setw(6) << shortClass
+         << "| " << fixed << setprecision(2) << setw(5) << getGPA()
+         << "| ";
+
+    bool hasCourse = false;
+    for (int i = 0; i < courseCount; ++i) {
+        if (courses[i] != nullptr) {
+            if (!hasCourse) {
+                cout << courses[i]->getSecID() << " - " << courses[i]->getTitle() << endl;
+                hasCourse = true;
+            }
+            else {
+                cout << setw(20) << " " << "| " 
+                     << setw(10) << " " << "| "
+                     << setw(6) << " " << "| "
+                     << setw(5) << " " << "| "
+                     << courses[i]->getSecID() << " - " << courses[i]->getTitle() << endl;
+            }
+        }
+    }
+
+    if (!hasCourse) {
+        cout << "(No enrolled courses)" << endl;
+    }
+}
 // Add course in a student
 void studentType :: addCourse (courseType *newCourse)
 {
@@ -41,8 +75,7 @@ void studentType :: addCourse (courseType *newCourse)
 			courses[courseCount] = newCourse;
 			courseCount++;
 	}
-	else{
-	cout << "Cannot enroll student: maximum course load of 5 reached. Press Enter to Continue\n";
+	else{ cout << "Cannot enroll student: maximum course load of 5 reached. Press Enter to Continue\n"; 
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	}
 
@@ -104,3 +137,4 @@ istream &operator>> (istream &in, studentType &obj)
 
 	return in;
 }
+

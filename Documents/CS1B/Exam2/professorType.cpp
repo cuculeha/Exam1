@@ -42,7 +42,6 @@ void professorType :: teachCourse (courseType *newCourse )
 {
 	if (courseCount < 3){
 		courses[courseCount] = newCourse;
-		courseCount ++;
 		}
 
 	else 	{

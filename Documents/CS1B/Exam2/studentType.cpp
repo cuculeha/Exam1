@@ -154,19 +154,15 @@ istream &operator>> (istream &in, studentType &obj)
 
 	getline (in, studentID, '|');
 	obj.setID (studentID);
-	cout << studentID << endl;
 
 	getline (in, first, '|');
 	obj.setFName (first);
-	cout << first << endl;
 
 	getline (in, last, '|');
 	obj.setLName (last);
-	cout << last << endl;
 
 	getline (in, gender, '|');
 	obj.setGender (gender[0]);
-	cout << gender[0] << endl;
 
 	getline(in, height, '|');
 		if (!height.empty()) {
@@ -175,15 +171,11 @@ istream &operator>> (istream &in, studentType &obj)
     obj.setHeight(0); // or some safe default
 		}
 
-	cout << height << endl;
-
 	getline (in, address, '|');
 	obj.setAddress (address);
-	cout << address << endl;
 
 	getline (in, dob, '|');
 	obj.setDOB (dob);
-	cout << dob << endl;
 
 	getline(in, gpa, '|');
 		if (!gpa.empty()) {
@@ -191,11 +183,9 @@ istream &operator>> (istream &in, studentType &obj)
 			} else {
     obj.setGPA(0.0);
 			}
-	cout << gpa << endl;
 
 	getline (in, clss, '|');
 	obj.setClassification (clss);
-	cout << clss << endl;
 
 	string coursesTemp;
 	getline(in, coursesTemp);      // read the *whole courses line* here
@@ -211,11 +201,6 @@ istream &operator>> (istream &in, studentType &obj)
         obj.courseCount++;
     	}
 		}
-
-	// Print
-	for (int i = 0; i < obj.courseCount; i++) {
-    cout << obj.tempCourseIDs[i] << endl;
-}
 
 	return in;
 }

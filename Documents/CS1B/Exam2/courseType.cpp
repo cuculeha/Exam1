@@ -73,27 +73,21 @@ istream &operator>> (istream &in, courseType &obj)
 
 	getline(in, code, '|');
 	obj.setCourseID (code);
-	cout << code << endl;
 
 	getline(in, id, '|');
 	obj.setSection(id);
-	cout << id << endl;
 
 	getline(in, title, '|');
 	obj.setTitle(title);
-	cout << title << endl;
 
 	getline(in, days, '|');
 	obj.setDays(days);
-	cout << days << endl;
 
 	getline(in, time, '|');
 	obj.setTime(time);
-	cout << time << endl;
 
 	getline(in, room, '|');
 	obj.setRoom(room);
-	cout << room << endl;
 
 	getline(in, quantity, '|');
 	obj.setCapacity(stoi(quantity));

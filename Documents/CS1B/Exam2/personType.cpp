@@ -90,7 +90,7 @@ personType::personType (const personType &another)
 // Destructor
 personType:: ~personType ()
 {
-	cout << fName << " " << lName << " object destroyed...\n";
+
 }
 
 

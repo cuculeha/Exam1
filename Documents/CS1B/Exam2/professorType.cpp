@@ -149,19 +149,15 @@ istream &operator>> (istream &in, professorType &obj)
 
 	getline (in, profID, '|');
 	obj.setEmpID (profID);
-	cout << profID << endl;
 
 	getline (in, first, '|');
 	obj.setFName (first);
-	cout << first << endl;
 
 	getline (in, last, '|');
 	obj.setLName (last);
-	cout << last << endl;
 
 	getline (in, gender, '|');
 	obj.setGender (gender[0]);
-	cout << gender[0] << endl;
 
 	getline(in, height, '|');
 		if (!height.empty()) {
@@ -169,23 +165,18 @@ istream &operator>> (istream &in, professorType &obj)
 		} else {
     obj.setHeight(0); // or some safe default
 		}
-	cout << height << endl;
 
 	getline (in, address, '|');
 	obj.setAddress (address);
-	cout << address << endl;
 
 	getline (in, dob, '|');
 	obj.setDOB (dob);
-	cout << dob << endl;
 
 	getline (in, dep, '|');
 	obj.setDep (dep);
-	cout << dep << endl;
 
 	getline (in, degree, '|');
 	obj.setDegree (degree);
-	cout << degree << endl;
 
 	string coursesTemp;
 	getline(in, coursesTemp);      // read the *whole courses line* here
@@ -200,11 +191,6 @@ istream &operator>> (istream &in, professorType &obj)
         obj.tempCourseIDs[obj.courseCount] = courseID;
         obj.courseCount++;
 			}
-		}
-
-	// Print
-	for (int i = 0; i < obj.courseCount; i++) {
-    cout << obj.tempCourseIDs[i] << endl;
 		}
 	return in;
 }

@@ -67,7 +67,6 @@ int main ()
 			cout << "Not implemented yet...\n";
 			cout << "Press Enter to Continue\n";
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			
 			break;
 
 			case '3':
@@ -83,7 +82,8 @@ int main ()
 			break;
 
 			case '6':
-			cout << "Selected Option 6\n";
+			cout << "Havent Implemented Yet..Press Enter to Continue\n";
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			break;
 
 			case '7':
@@ -105,21 +105,27 @@ int main ()
 
 			case '8':
 			{
+			if (people!=nullptr) {
 			for (int i = 0; i < studentType::getStudentCount()+professorType::getProfCount() ; i++){
 							delete people[i];	}
-
-					for (int i = 0; i < studentType::getStudentCount(); i++){
+							delete [] people;
+				}
+			if (students != nullptr){
+			for (int i = 0; i < studentType::getStudentCount(); i++){
 								delete students[i];	}
-
-							for (int i = 0; i < professorType::getProfCount(); i++){
+								delete [] students;
+				}
+			if (professors != nullptr ){
+			for (int i = 0; i < professorType::getProfCount(); i++){
 								delete professors[i];	}
+								delete [] professors;
+				}
+			if (courses != nullptr ){
 					for (int i = 0; i < courseType::getCourseCount(); i++){
 								delete courses[i];	}
+								delete [] courses;
+				}
 
-									delete [] students;
-									delete [] professors;
-									delete [] courses;
-									delete [] people;
 				beforeQuit();
 				}
 				return 0;
@@ -225,8 +231,9 @@ void readFile(const string &input, studentType** &students, professorType** &pro
         addNewStudent(students, tempStudent);
     }
 }
-
-    cout << "Finished reading data successfully!\nPress Enter to Continue\n";
+		cout << "┌──────────────────────────────────────────────────────────────────┐\n";
+		cout << "│ Successfully Read the File. Press Enter To Continue...           │\n";
+		cout << "└──────────────────────────────────────────────────────────────────┘\n";
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 		for (int i = 0; i < studentType::getStudentCount(); ++i) {

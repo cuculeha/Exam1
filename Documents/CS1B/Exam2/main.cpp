@@ -8,6 +8,19 @@
 #include "studentType.h"
 #include "selectionSort.h"
 #include <limits>
+
+int activeAllocations = 0;
+
+void* operator new(std::size_t size) {
+    ++activeAllocations;
+    return malloc(size);
+}
+
+void operator delete(void* ptr) noexcept {
+    --activeAllocations;
+    free(ptr);
+}
+
 using namespace std;
 
 char showMainMenu ();
@@ -19,6 +32,7 @@ void studentwithCourses ( studentType** students);
 void profwithCourses ( professorType** professors);
 void courseDisplay (courseType** courses);
 void displayAll (personType** people, int totalPersons);
+void beforeQuit();
 
 int main ()
 {
@@ -35,10 +49,7 @@ int main ()
 	choice = showMainMenu();
 		switch (choice)
 		{
-			case '0':
-			return 0;
-			break;
-
+			
 			case '1':
 			if (readFileAlready == false){
 			readFile("input.txt", students, professors, courses);
@@ -76,10 +87,7 @@ int main ()
 			break;
 
 			case '7':
-			cout << "Selected Option 7\n";
-			break;
-
-			case '8':
+			{
 			int totalPersons = studentType::getStudentCount() + professorType::getProfCount();
 			people = new personType*[totalPersons];
 				int index = 0;
@@ -92,36 +100,36 @@ int main ()
     						people[index++] = professors[i];
 							}
 			displayAll (people, totalPersons);
+			}
 			break;
 
-		}
-		// Sort the data everytime the program repeats
-		SelectionSort (professors, professorType::getProfCount());
-		SelectionSort (courses, courseType:: getCourseCount(), [](courseType *a, courseType *b) 
+			case '8':
 			{
-				return *a < *b;
-			});
+			for (int i = 0; i < studentType::getStudentCount()+professorType::getProfCount() ; i++){
+							delete people[i];	}
+
+					for (int i = 0; i < studentType::getStudentCount(); i++){
+								delete students[i];	}
+
+							for (int i = 0; i < professorType::getProfCount(); i++){
+								delete professors[i];	}
+					for (int i = 0; i < courseType::getCourseCount(); i++){
+								delete courses[i];	}
+
+									delete [] students;
+									delete [] professors;
+									delete [] courses;
+									delete [] people;
+				beforeQuit();
+				}
+				return 0;
+
+			}
+		// Sort the data everytime the program repeats
 	}
-	while (choice != '0');
+	while (choice != '8');
 
-	for (int i = 0; i < studentType::getStudentCount(); i++)
-		{
-			delete students[i];
-		}
-
-	for (int i = 0; i < professorType::getProfCount(); i++)
-		{
-			delete professors[i];
-		}
-
-	for (int i = 0; i < courseType::getCourseCount(); i++)
-		{
-			delete courses[i];
-		}
-	delete [] students;
-	delete [] professors;
-	delete [] courses;
-	return 0;
+		return 0;
 }
 
 
@@ -139,20 +147,19 @@ char showMainMenu ()
 	cout << "│     (3) -   Print all students and their enrolled courses        │\n";
 	cout << "│     (4) -   Print all professors and their assigned courses      │\n";
 	cout << "│     (5) -   Generate Course Enrollment Report                    │\n";
-	cout << "│     (6) -   Print Course Catalog Review                          │\n";
-	cout << "│     (7) -   Generate Professor Course Load Report                │\n";
-	cout << "│     (8) -   Display all people and their associated courses      │\n";
+	cout << "│     (6) -   Generate Professor Course Load Report                │\n";
+	cout << "│     (7) -   Display all people and their associated courses      │\n";
 	cout << "├──────────────────────────────────────────────────────────────────┤\n";
-	cout << "│     (0) -   QUIT                                                 │\n";
+	cout << "│     (8) -   QUIT                                                 │\n";
 	cout << "└──────────────────────────────────────────────────────────────────┘\n";
 	resetColour();
-	cout << "Enter your choice 1 - 8 ( 0 to exit )\n";
+	cout << "Enter your choice 1 - 8\n";
 	cin.get (choice);
 	cin.ignore (100, '\n');
 
-		while (choice < '0' || choice > '8' )
+		while (choice < '1' || choice > '8' )
 		{
-			cout << choice << " is not a valid option. Please enter a number between 1 and 8 (0 to exit).\n";
+			cout << choice << " is not a valid option. Please enter a number between 1 and 8.\n";
 			cin.get (choice);
 			cin.ignore (100, '\n');
 		}
@@ -370,10 +377,32 @@ void courseDisplay (courseType** courses)
 
 void displayAll (personType** people, int totalPersons)
 {
+		system("clear");
+		cout << "┌─────────────────────────────────────────────────────────────────────────────┐\n";
+		cout << "│                         ALL PEOPLE REPORT (SORTED)                          │\n";
+		cout << "└─────────────────────────────────────────────────────────────────────────────┘\n";
+		SelectionSort (people, totalPersons, [](personType *a, personType *b) 
+			{
+				return *a < *b;
+		});
+
 		for (int i = 0; i < totalPersons; i++) {
     		people[i]->print();
 		}
 
 	cout << "Press Enter to Continue..\n";
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+
+
+void beforeQuit()
+{
+	if (activeAllocations == 0)
+    std::cout << "Yeayy.. All dynamic memory was successfully deallocated.\n";
+	else
+    std::cout << " Opss.. Memory leak detected. You missed deleting something.\n";
+
+	cout << "Press Enter to Quit..\n";
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
 }

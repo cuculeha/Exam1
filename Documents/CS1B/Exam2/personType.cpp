@@ -97,8 +97,9 @@ personType:: ~personType ()
 // Operator overloading (unchanged except for the < operator)
 bool personType:: operator< (const personType& b) const
 {
-	if (getLName() == b.getLName())
+	if (getLName() == b.getLName()){
 	return getFName() < b.getFName();
+	}
 
  return getLName() < b.getLName();
 

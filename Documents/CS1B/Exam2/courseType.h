@@ -11,7 +11,8 @@ class courseType
 	friend istream &operator>> (istream &in, courseType& obj);
 	public:
 	// Setters
-	void setSecID (string secID);
+	void setSection (string secID);
+	void setCourseID ( string CourseID );
 	void setTitle (string name);	
 	void setDays (string day);
 	void setTime ( string timeofCourse );
@@ -23,7 +24,8 @@ class courseType
 	static void incCensus () { census++ ; }
 
 	// Getters
-	string getSecID () const;
+	string getCourseID () const;
+	string getSection () const;
 	string getTitle () const;
 	string getDays () const;
 	string getTime () const;
@@ -47,6 +49,7 @@ class courseType
 	bool operator<(const courseType& b) const;
 	private:
 	string section;
+	string id;
 	string title;
 	string days;
 	string time;

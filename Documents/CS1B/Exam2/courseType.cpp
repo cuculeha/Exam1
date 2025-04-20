@@ -7,7 +7,8 @@ int courseType:: census = 0;
 int courseType:: courseCount = 0;
 
 // Setters
-void courseType :: setSecID (string secID)	{ section = secID ;	}
+void courseType :: setSection (string secID)	{ section = secID ;	}
+void courseType :: setCourseID (string CourseID )	{ id = CourseID ;	}
 void courseType :: setTitle (string name)	{  title = name;	}
 void courseType :: setDays (string day)	{  days = day;	}
 void courseType :: setTime (string timeofCourse )	{ time = timeofCourse;	}
@@ -17,7 +18,8 @@ void courseType :: setEnrollmentCount (int enrollCount )	{  enrollCount = enroll
 void courseType :: setNumProf ( int numProf  )	{ numInstructors  = numProf;	}
 
 // Getters
-string courseType:: getSecID() const	{  return section ;	}
+string courseType:: getSection() const	{  return section ;	}
+string courseType:: getCourseID() const	{  return id ;	}
 string courseType :: getTitle() const	{	return title;}
 string courseType :: getDays() const	{  return days;	}
 string courseType :: getTime() const	{  return time;	}
@@ -46,50 +48,51 @@ courseType:: ~courseType ()
 
 void courseType :: print () const
 {
-	cout << left << setw(20) << getSecID () << " " << getTitle () << endl;
+	cout << left << setw(20) << getSection () << " " << getTitle () << endl;
 }
 
 istream &operator>> (istream &in, courseType &obj)
 {
+	string code;
 	string id;
 	string title = "";
 	string time = "";
 	string days = "";
 	string room = "";
-	int quantity;
+	string quantity;
 
-	cout << "┌──────────────────────────────────────────────────────────────────┐\n";
-	cout << "│               Adding a new course in Saddleback College          │\n";
-	cout << "└──────────────────────────────────────────────────────────────────┘\n";
-	cout << "\nCourse Section ID : ";
-	getline (in, id);
-	obj.setSecID(id);
+	getline(in, code, '|');
+	obj.setCourseID (code);
+	cout << code << endl;
 
-	cout << "\nCourse Title : ";
-	getline (in, title);
+	getline(in, id, '|');
+	obj.setSection(id);
+	cout << id << endl;
+
+	getline(in, title, '|');
 	obj.setTitle(title);
+	cout << title << endl;
 
-	cout << "\nCourse Days : ";
-	getline (in, days);
+	getline(in, days, '|');
 	obj.setDays(days);
+	cout << days << endl;
 
-	cout << "\nCourse Time : ";
-	getline (in, time);
+	getline(in, time, '|');
 	obj.setTime(time);
+	cout << time << endl;
 
-	cout << "\nClassroom : ";
-	getline (in, room);
+	getline(in, room, '|');
 	obj.setRoom(room);
-	
-	cout << "\nMaximum Capacity: ";
-	in >> quantity;
-	obj.setCapacity(quantity);
-	in.ignore();
+	cout << room << endl;
+
+	getline(in, quantity, '|');
+	obj.setCapacity(stoi(quantity));
+	cout << quantity << endl;
 
 	return in;
 }
 
 bool courseType:: operator< (const courseType& b) const
 {
-	return (getSecID() == b.getSecID());
+	return (getSection() == b.getSection());
 }

@@ -18,7 +18,7 @@ public:
 	void setID (string studentID);
 	void setClassification (string studentCLS);
 	static void incStudentCount () 	{	++studentCount; 	}
-	void addCourse (courseType *newCourse );
+	void addCourse (courseType** courses, int totalCourses );
 	void incCourseCount() { courseCount++; };
 
 	double getGPA() const;
@@ -36,6 +36,7 @@ private:
   string id; //added every id 'should' be unique
 	double gpa;
 	string classification;
+	string tempCourseIDs [5];
 	courseType *courses[5];
 	int courseCount;
 	static int studentCount;

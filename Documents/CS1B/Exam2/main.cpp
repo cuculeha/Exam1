@@ -11,13 +11,10 @@
 using namespace std;
 
 char showMainMenu ();
-char addDataManually ();
 void readFile (const string &input, studentType** &students, professorType** &professors, courseType** &courses);
 void addNewStudent(studentType**& students, studentType* newStudent);
 void addNewProf (professorType** &professors, professorType* newProfessor);
 void addNewCourse (courseType** &courses, courseType* newCourse);
-void enrollStudent (studentType** students, courseType** courses);
-void assignProf (professorType** professors, courseType** courses);
 void studentwithCourses ( studentType** students);
 
 int main ()
@@ -28,12 +25,7 @@ int main ()
 	professorType** professors = nullptr;
 	courseType** courses = nullptr;
 
-	studentType *tempStudent = nullptr;
-	professorType *tempProf = nullptr;
-	courseType *tempCourse = nullptr;
-
 	char choice;
-	char toAddManually;
 	bool readFileAlready = false;
 
 	do {
@@ -58,41 +50,10 @@ int main ()
 			break;
 
 			case '2':
-			toAddManually = addDataManually ();
-			system ("clear");
-				switch (toAddManually){
-					case '1':
-					tempStudent = new studentType ();
-					cin >> *tempStudent;
-					addNewStudent (students, tempStudent);
-					cout << "Successfully Added a New Student in Saddleback College. Press Enter\n";
-					cin.ignore(numeric_limits<streamsize>::max(), '\n');
-					break;
-
-					case '2':
-					tempProf = new professorType ();
-					cin >> *tempProf;
-					addNewProf (professors, tempProf);
-					cout << "Successfully Added a New Professor in Saddleback College. Press Enter\n";
-					cin.ignore(numeric_limits<streamsize>::max(), '\n');
-					break;
-
-					case '3':
-					tempCourse = new courseType ();
-					cin >> *tempCourse;
-					addNewCourse (courses, tempCourse);
-					cout << "Successfully Added a New Course in Saddleback College. Press Enter\n";
-					cin.ignore(numeric_limits<streamsize>::max(), '\n');
-					break;
-
-					case '4':
-					enrollStudent (students, courses);
-					break;
-
-					case '5':
-					assignProf (professors, courses);
-					break;
-				};
+			cout << "Not implemented yet...\n";
+			cout << "Press Enter to Continue\n";
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			
 			break;
 
 			case '3':
@@ -121,7 +82,6 @@ int main ()
 
 		}
 		// Sort the data everytime the program repeats
-		SelectionSort (students ,studentType::getStudentCount());
 		SelectionSort (professors, professorType::getProfCount());
 		SelectionSort (courses, courseType:: getCourseCount(), [](courseType *a, courseType *b) 
 			{
@@ -185,84 +145,71 @@ char showMainMenu ()
 	return choice; 
 }
 
-
-char addDataManually ()
+void readFile(const string &input, studentType** &students, professorType** &professors, courseType** &courses)
 {
-	char choice;
+    ifstream infile(input);
+    if (!infile) {
+        cout << "Failed to open the file..Press Enter to Continue\n";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        return;
+    }
 
-	system ("clear");
-	setColour(32);
-	cout << "┌──────────────────────────────────────────────────────────────────┐\n";
-	cout << "│                         Manual Data Entry Menu                   │\n";
- 	cout << "│                                                                  │\n";
-	cout << "│     (1) -   Add A New Student                                    │\n";
-	cout << "│     (2) -   Add a New Professor                                  │\n";
-	cout << "│     (3) -   Add a New Course                                     │\n";
-	cout << "│     (4) -   Enroll an existing student in a course               │\n";
-	cout << "│     (5) -   Assign an exising professor to a course              │\n";
-	cout << "├──────────────────────────────────────────────────────────────────┤\n";
-	cout << "│     (0) -   Quit and Back To Main Menu                           │\n";
-	cout << "└──────────────────────────────────────────────────────────────────┘\n";
-	resetColour();
-	cout << "Enter your choice 1 - 5 ( 0 back to main menu )\n";
-	cin.get (choice);
-	cin.ignore (100, '\n');
+    string keyword;
+    bool readingCourses = false;
+    bool readingProfessors = false;
+	 bool readingStudents = false;
 
-		while (choice < '0' || choice > '5' )
-		{
-			cout << choice << " is not a valid option. Please enter a number between 1 and 5 (0 back to main menu).\n";
-			cin.get (choice);
-			cin.ignore (100, '\n');
-		}
-	return choice;
+
+ 	while (getline(infile, keyword)) {
+    if (keyword == "COURSES_START") {
+        readingCourses = true;
+        continue;
+    } else if (keyword == "COURSES_END") {
+        readingCourses = false;
+        continue;
+    }
+    else if (keyword == "PROFESSORS_START") {
+        readingProfessors = true;
+        continue;
+    }
+    else if (keyword == "PROFESSORS_END") {
+        readingProfessors = false;
+        continue;
+    }
+    else if (keyword == "STUDENTS_START") {
+        readingStudents = true;
+        continue;
+    }
+    else if (keyword == "STUDENTS_END") {
+        readingStudents = false;
+        continue;
+    }
+
+    if (readingCourses) {
+        stringstream ss(keyword);
+        courseType* tempCourse = new courseType();
+        ss >> *tempCourse;
+        addNewCourse(courses, tempCourse);
+    }
+    else if (readingProfessors) {
+        stringstream ss(keyword);
+        professorType* tempProf = new professorType();
+        ss >> *tempProf;
+        addNewProf(professors, tempProf);
+    }
+    else if (readingStudents) {
+        stringstream ss(keyword);
+        studentType* tempStudent = new studentType();
+        ss >> *tempStudent;
+        addNewStudent(students, tempStudent);
+    }
 }
 
-void readFile (const string &input, studentType** &students, professorType** &professors, courseType** &courses)
-{
-	ifstream infile(input);
-	studentType *tempStudent = nullptr;
-	professorType *tempProf = nullptr;
-	courseType *tempCourse = nullptr;
+    cout << "Finished reading data successfully!\nPress Enter to Continue\n";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-	if (!infile){
-		cout << "Failed to open the file..Press Enter to Continue\n";
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		return;
-	}
-
-	string keyword;
-	while (getline(infile,keyword))
-	{
-		if (keyword == "ProfessorType"){
-				cout << "Professor Type\n";
-				tempProf = new professorType();
-				infile >> *tempProf;
-				addNewProf (professors, tempProf);
-		}
-
-		else if (keyword == "StudentType"){
-				tempStudent = new studentType();
-				infile >> *tempStudent;
-				addNewStudent (students, tempStudent);
-
-		}
-
-		else if (keyword == "CourseType"){
-			tempCourse = new courseType ();
-			infile >> *tempCourse;
-			addNewCourse (courses, tempCourse);
-		}
-
-		else if (keyword == "End")
-			{	
-				cout << endl;
-				system("clear");
-				cout << "END OF FILE.. SUCCESSFULY READ DATA\n";
-				cout << "Press Enter to Continue\n";
-				cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			}
-		else
-		cout << "Unknown Type\n";
+		for (int i = 0; i < studentType::getStudentCount(); ++i) {
+    students[i]->addCourse(courses, courseType::getCourseCount() );
 	}
 }
 
@@ -309,102 +256,29 @@ void addNewCourse(courseType**& courses, courseType* newCourse)
 		courseType::incCourseCount();
 }
 
-void enrollStudent (studentType** students, courseType** courses)
-{
-	int studentIndex;
-	int courseIndex;
-
-	if (studentType::getStudentCount() == 0)
-		{
-			cout << "No Students available in system\n.. Add students first\n";
-			cout << "Press Enter to Continue\n";
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			return;
-	}
-
-	if (courseType::getCourseCount() == 0)
-		{
-			cout << "No Courses available in system.. Add Courses first\n";
-			cout << "Press Enter to Continue\n";
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			return;
-	}
-
-	// At this line, there are students and courses in the system..
-	// LookUp for students..
-	system("clear");
-	cout << "Search for students in Saddleback College\n";
-	studentIndex = searchObjectList(students, studentType::getStudentCount());
-
-	if (studentIndex != -1) // Means valid student is picked
-	{
-		system("clear");
-		cout << "Search for courses in Saddleback College\n";
-		courseIndex = searchObjectList(courses, courseType::getCourseCount());
-
-	}
-
-	// Enroll student in a course..
-	if (studentIndex != -1 && courseIndex != -1){
-	students[studentIndex]->addCourse(courses[courseIndex]);
-	}
-}
-
-void assignProf (professorType** professors, courseType** courses)
-{
-	int professorIndex;
-	int courseIndex;
-
-	if (professorType::getProfCount() == 0)
-		{
-			cout << "No Professor available in system\n.. Add professor first\n";
-			cout << "Press Enter to Continue\n";
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			return;
-	}
-
-	if (courseType::getCourseCount() == 0)
-		{
-			cout << "No Courses available in system.. Add Courses first\n";
-			cout << "Press Enter to Continue\n";
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			return;
-	}
-
-	system("clear");
-	cout << "Search for professors in Saddleback College\n";
-	professorIndex = searchObjectList(professors, professorType::getProfCount());
-
-	if (professorIndex != -1) // Means valid student is picked
-	{
-		system("clear");
-		cout << "Search for courses in Saddleback College\n";
-		courseIndex = searchObjectList(courses, courseType::getCourseCount());
-
-	}
-
-	// Enroll student in a course..
-	if (professorIndex != 0 && courseIndex != 0){
-	professors[professorIndex]->teachCourse(courses[courseIndex]);
-	professors[professorIndex]->incCourseCount();
-	}
-
-}
-
 void studentwithCourses (studentType** students)
 {
+	SelectionSort (students ,studentType::getStudentCount());
 	system("clear");
+	setColour(96);
+
 	cout << "┌──────────────────────────────────────────────────────────────────────────────────────────────────┐\n";
 	cout << "│                                 Student Enrollment Report (SORTED)                               │\n";
 	cout << "├────────────────────┬───────────┬───────┬──────┬──────────────────────────────────────────────────┤\n";
 	cout << left << setw(22) << "│Name" << left << setw (15) << " │ ID" << left << setw(10) << "│Class";
 	cout << left << setw(9) << "│ GPA" << left << setw (52) << "│ Courses(sorted) " << " │\n";
-	cout << "├────────────────────┴───────────┴───────┴──────┴──────────────────────────────────────────────────┤\n";
+	cout << "└────────────────────┴───────────┴───────┴──────┴──────────────────────────────────────────────────┘\n";
+	cout << endl;
+	resetColour();
+
 	for (int i =0 ; i < studentType::getStudentCount (); i ++)	{
 		students[i]->printByRow();
-		cout << "├──────────────────────────────────────────────────────────────────────────────────────────────────┤\n";
+		cout << "────────────────────────────────────────────────────────────────────────────────────────────────────\n";
 		}
-
+	setColour(96);
+	cout << right << setw (45) << "TOTAL STUDENT LISTED : " << studentType::getStudentCount();
+	resetColour();
+	cout << "\n────────────────────────────────────────────────────────────────────────────────────────────────────\n";
 	cout << "Press Enter to Continue..\n";
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 

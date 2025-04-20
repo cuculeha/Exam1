@@ -1,32 +1,9 @@
-StudentType
-Saliha Babar
-123 Main Street
-67
-2nd July 2025
-5.9
-S8582
-Sophomore
-StudentType
-Sidrah Babar
-615 Calle Campana
-65
-26 June 2003
-4.5
-F63473
-Junior
-CourseType
-CS 1B
-Introduction To Computer Science
-Mon and Wednesday
-5pm - 6.30pm
-ATAS230
-20
-ProfessorType
-Carl Argila
-123 Somewhere in USA
-56.7
-3rd August 1960
-E3473
-Computer Science
-Bachelor in Computer Science
-End
+COURSES_START
+37215|CIMN150|Intro to Networking|TTh|12:00–15:50|Online|28
+30658|CS1B|Introduction to Computer Science II|TTh|08:00–11:50|Online|29
+55457|CIMS150|Introduction to Information Systems|TTh|10:00–09:50|Online|39
+COURSES_END
+STUDENTS_START
+S1001|Marilyn|Lee|M|72|770 Timothy Road Suite 857, San Diego, CA|2001-05-02|3.9|Sr|37215
+S1002|Sarah|Brown|F|60|588 Jared Spur Suite 512, San Clemente, CA|1999-01-23|2.72|Jr|37215,30658,55457
+STUDENTS_END

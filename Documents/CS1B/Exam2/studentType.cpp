@@ -42,24 +42,24 @@ void studentType::printByRow() const
 
     // First line - student info
     cout << "│" << left << setw(20) << fullName
-         << "| " << left << setw(10) << getID()
-         << "| " << left << setw(6) << shortClass
-         << "| " << fixed << setprecision(2) << setw(5) << getGPA()
-         << "| ";
+         << "│ " << left << setw(10) << getID()
+         << "│ " << left << setw(6) << shortClass
+         << "│ " << fixed << setprecision(2) << setw(5) << getGPA()
+         << "│ ";
 
     bool hasCourse = false;
     for (int i = 0; i < courseCount; ++i) {
         if (courses[i] != nullptr) {
             if (!hasCourse) {
-                cout << courses[i]->getSecID() << " - " << courses[i]->getTitle() << endl;
+                cout << courses[i]->getSection() << " -> " << courses[i]->getTitle() << endl;
                 hasCourse = true;
             }
             else {
-                cout << setw(20) << " " << "| " 
-                     << setw(10) << " " << "| "
-                     << setw(6) << " " << "| "
-                     << setw(5) << " " << "| "
-                     << courses[i]->getSecID() << " - " << courses[i]->getTitle() << endl;
+                cout << setw(21) << " " << "│ " 
+                     << setw(10) << " " << "│ "
+                     << setw(6) << " " << "│ "
+                     << setw(5) << " " << "│ "
+                     << courses[i]->getSection() << " -> " << courses[i]->getTitle() << endl;
             }
         }
     }
@@ -69,17 +69,25 @@ void studentType::printByRow() const
     }
 }
 // Add course in a student
-void studentType :: addCourse (courseType *newCourse)
+void studentType::addCourse(courseType** courseList, int totalCourses)
 {
-	if (courseCount < 5) {
-			courses[courseCount] = newCourse;
-			courseCount++;
-	}
-	else{ cout << "Cannot enroll student: maximum course load of 5 reached. Press Enter to Continue\n"; 
-	cin.ignore(numeric_limits<streamsize>::max(), '\n');
-	}
+    courseCount = 0; // reset
 
+    for (int i = 0; i < 5; ++i) { // max tempCourseIDs
+        for (int j = 0; j < totalCourses; ++j) { // search real courses
+            if (courseList[j] != nullptr && courseList[j]->getCourseID() == tempCourseIDs[i]) {
+                if (courseCount < 5) { // ⭐ TRACKER
+                    courses[courseCount] = courseList[j];
+                    courseCount++;
+                } else {
+                    cout << "Warning: Student already enrolled in maximum 5 courses. Extra courses ignored." << endl;
+                }
+                break; // no need to keep checking
+            }
+        }
+    }
 }
+
 
 ostream &operator<< (ostream &out, const studentType &obj)
 {
@@ -89,52 +97,80 @@ ostream &operator<< (ostream &out, const studentType &obj)
 
 istream &operator>> (istream &in, studentType &obj)
 {
-	string full;
-	string fName = "";
-	string lName = "";
+	string studentID;
+	string first;
+	string last;
+	string gender;
+	string height;
 	string address;
-	double height;
 	string dob;
-	double gpa;
-	string classification;
-	string id;
+	string gpa;
+	string clss;
 
-	cout << "\nFull Name : ";
-	getline (in, full);
-	// Separate the full name to first and last
-	int position;
-	position = full.find(" ");
-	fName.append (full, 0, position);
-	lName.append(full, position+1);
-	obj.setFName(fName);
-	obj.setLName(lName);
+	getline (in, studentID, '|');
+	obj.setID (studentID);
+	cout << studentID << endl;
 
-	cout << "\nAddress : ";
-	getline (in, address);
-	obj.setAddress(address);
+	getline (in, first, '|');
+	obj.setFName (first);
+	cout << first << endl;
 
-	cout << "\nHeight : ";
-	in >> height;
-	obj.setHeight(height);
-	in.ignore();
+	getline (in, last, '|');
+	obj.setLName (last);
+	cout << last << endl;
 
-	cout << "\nDOB : ";
-	getline (in, dob );
-	obj.setDOB(dob);
+	getline (in, gender, '|');
+	obj.setGender (gender[0]);
+	cout << gender[0] << endl;
 
-	cout << "\nGPA : ";
-	in >> gpa;
-	obj.setGPA(gpa);
-	in.ignore();
+	getline(in, height, '|');
+		if (!height.empty()) {
+    obj.setHeight(stoi(height));
+		} else {
+    obj.setHeight(0); // or some safe default
+		}
 
-	cout << "\nID : ";
-	getline (in, id );
-	obj.setID(id);
+	cout << height << endl;
 
-	cout << "\nClassification : ";
-	getline (in, classification);
-	obj.setClassification(classification);
+	getline (in, address, '|');
+	obj.setAddress (address);
+	cout << address << endl;
+
+	getline (in, dob, '|');
+	obj.setDOB (dob);
+	cout << dob << endl;
+
+	getline(in, gpa, '|');
+		if (!gpa.empty()) {
+    obj.setGPA(stod(gpa));
+			} else {
+    obj.setGPA(0.0);
+			}
+	cout << gpa << endl;
+
+	getline (in, clss, '|');
+	obj.setClassification (clss);
+	cout << clss << endl;
+
+	string coursesTemp;
+	getline(in, coursesTemp);      // read the *whole courses line* here
+
+	stringstream courseStream(coursesTemp);   // now OK to wrap it
+	string courseID;
+	obj.courseCount = 0;
+
+	// Split
+		while (getline(courseStream, courseID, ',')) {
+    	if (obj.courseCount < 5) {
+        obj.tempCourseIDs[obj.courseCount] = courseID;
+        obj.courseCount++;
+    	}
+		}
+
+	// Print
+	for (int i = 0; i < obj.courseCount; i++) {
+    cout << obj.tempCourseIDs[i] << endl;
+}
 
 	return in;
 }
-

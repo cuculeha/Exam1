@@ -16,11 +16,14 @@ void addNewStudent(studentType**& students, studentType* newStudent);
 void addNewProf (professorType** &professors, professorType* newProfessor);
 void addNewCourse (courseType** &courses, courseType* newCourse);
 void studentwithCourses ( studentType** students);
+void profwithCourses ( professorType** professors);
+void courseDisplay (courseType** courses);
+void displayAll (personType** people, int totalPersons);
 
 int main ()
 {
 
-	//personType** people = nullptr;
+	personType** people = nullptr;
 	studentType** students = nullptr;
 	professorType** professors = nullptr;
 	courseType** courses = nullptr;
@@ -61,11 +64,11 @@ int main ()
 			break;
 
 			case '4':
-			cout << "Selected Option 4\n";
+			profwithCourses (professors);
 			break;
 
 			case '5':
-			cout << "Selected Option 5\n";
+			courseDisplay (courses);
 			break;
 
 			case '6':
@@ -77,7 +80,18 @@ int main ()
 			break;
 
 			case '8':
-			cout << "Selected Option 8\n";
+			int totalPersons = studentType::getStudentCount() + professorType::getProfCount();
+			people = new personType*[totalPersons];
+				int index = 0;
+
+				// Fill in the pointers with studentType and professorType
+						for (int i = 0; i < studentType::getStudentCount(); i++) {
+    						people[index++] = students[i];
+								}
+						for (int i = 0; i < professorType::getProfCount(); i++) {
+    						people[index++] = professors[i];
+							}
+			displayAll (people, totalPersons);
 			break;
 
 		}
@@ -86,7 +100,7 @@ int main ()
 		SelectionSort (courses, courseType:: getCourseCount(), [](courseType *a, courseType *b) 
 			{
 				return *a < *b;
-				});
+			});
 	}
 	while (choice != '0');
 
@@ -209,8 +223,12 @@ void readFile(const string &input, studentType** &students, professorType** &pro
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 		for (int i = 0; i < studentType::getStudentCount(); ++i) {
-    students[i]->addCourse(courses, courseType::getCourseCount() );
-	}
+    	students[i]->addCourse(courses, courseType::getCourseCount() );
+			}
+
+		for (int i = 0; i < professorType::getProfCount(); ++i) {
+    	professors[i]->teachCourse(courses, courseType::getCourseCount());
+			}
 }
 
 void addNewStudent(studentType**& students, studentType* newStudent)
@@ -258,7 +276,10 @@ void addNewCourse(courseType**& courses, courseType* newCourse)
 
 void studentwithCourses (studentType** students)
 {
-	SelectionSort (students ,studentType::getStudentCount());
+	SelectionSort (students, studentType:: getStudentCount(), [](studentType *a, studentType *b) 
+			{
+				return *a < *b;
+	});
 	system("clear");
 	setColour(96);
 
@@ -266,14 +287,14 @@ void studentwithCourses (studentType** students)
 	cout << "│                                 Student Enrollment Report (SORTED)                               │\n";
 	cout << "├────────────────────┬───────────┬───────┬──────┬──────────────────────────────────────────────────┤\n";
 	cout << left << setw(22) << "│Name" << left << setw (15) << " │ ID" << left << setw(10) << "│Class";
-	cout << left << setw(9) << "│ GPA" << left << setw (52) << "│ Courses(sorted) " << " │\n";
+	cout << left << setw(9) << "│ GPA" << left << setw (52) << "│ Courses (sorted) " << " │\n";
 	cout << "└────────────────────┴───────────┴───────┴──────┴──────────────────────────────────────────────────┘\n";
 	cout << endl;
 	resetColour();
 
 	for (int i =0 ; i < studentType::getStudentCount (); i ++)	{
 		students[i]->printByRow();
-		cout << "────────────────────────────────────────────────────────────────────────────────────────────────────\n";
+		cout << " ────────────────────────────────────────────────────────────────────────────────────────────────── \n";
 		}
 	setColour(96);
 	cout << right << setw (45) << "TOTAL STUDENT LISTED : " << studentType::getStudentCount();
@@ -282,4 +303,77 @@ void studentwithCourses (studentType** students)
 	cout << "Press Enter to Continue..\n";
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
+}
+
+void profwithCourses (professorType** professors)
+{
+	SelectionSort (professors, professorType:: getProfCount(), [](professorType *a, professorType *b) 
+			{
+				return *a < *b;
+	});
+	system("clear");
+	setColour(96);
+
+	cout << "┌──────────────────────────────────────────────────────────────────────────────────────────────────┐\n";
+	cout << "│                              Professor Course Load Report (SORTED)                               │\n";
+	cout << "├────────────────────┬───────────┬───────┬──────┬──────────────────────────────────────────────────┤\n";
+	cout << left << setw(22) << "│Name" << left << setw (15) << " │ ID" << left << setw(10) << "│Dept";
+	cout << left << setw(9) << "│ Load" << left << setw (52) << "│ Assigned Courses (sorted) " << " │\n";
+	cout << "└────────────────────┴───────────┴───────┴──────┴──────────────────────────────────────────────────┘\n";
+	cout << endl;
+	resetColour();
+
+	for (int i =0 ; i < professorType::getProfCount (); i ++)	{
+		professors[i]->printByRow();
+		cout << " ────────────────────────────────────────────────────────────────────────────────────────────────── \n";
+		}
+	setColour(96);
+	cout << right << setw (55) << "TOTAL PROFESSOR LISTED : " << professorType::getProfCount();
+	resetColour();
+	cout << "\n────────────────────────────────────────────────────────────────────────────────────────────────────\n";
+	cout << "Press Enter to Continue..\n";
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+}
+
+
+void courseDisplay (courseType** courses)
+{
+	SelectionSort (courses, courseType:: getCourseCount(), [](courseType *a, courseType *b) 
+			{
+				return *a < *b;
+	});
+ 	system("clear");
+	setColour(96);
+	cout << "┌──────────────────────────────────────────────────────────────────────────────────────────────────┐\n";
+	cout << "│                                  Course Enrollment Report (SORTED)                               │\n";
+	cout << "├────────┬─────────────────────────────┬───────┬──────────────┬─────────┬────────┬────────┬────────┤\n";
+	cout << left << setw(8) << "│ Section" << left << setw (32) << "│ Title" << left << setw(10) << "│ Days";
+	cout << left << setw(17) << "│ Time" << left << setw (12) << "│ Room " << left << setw(11) << "│ Cap";
+	cout << left << setw(10) << "│ Inst" << left << setw (12) << " │ Enr " << "│\n";
+	cout << "└────────┴─────────────────────────────┴───────┴──────────────┴─────────┴────────┴────────┴────────┘\n";
+	resetColour();
+
+	for (int i =0 ; i < courseType::getCourseCount (); i ++)	{
+		courses[i]->printByRow();
+		cout << " ────────────────────────────────────────────────────────────────────────────────────────────────── \n";
+		}
+
+	setColour(96);
+	cout << right << setw (55) << "TOTAL COURSES LISTED : " << courseType::getCourseCount();
+	resetColour();
+	cout << "\n────────────────────────────────────────────────────────────────────────────────────────────────────\n";
+	cout << "Press Enter to Continue..\n";
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+}
+
+void displayAll (personType** people, int totalPersons)
+{
+		for (int i = 0; i < totalPersons; i++) {
+    		people[i]->print();
+		}
+
+	cout << "Press Enter to Continue..\n";
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }

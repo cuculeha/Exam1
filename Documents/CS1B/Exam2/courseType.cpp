@@ -1,6 +1,8 @@
 #include <iostream>
 #include <iomanip>
 #include "courseType.h"
+#include "studentType.h"
+#include "selectionSort.h"
 using namespace std;
 
 int courseType:: census = 0;
@@ -14,7 +16,8 @@ void courseType :: setDays (string day)	{  days = day;	}
 void courseType :: setTime (string timeofCourse )	{ time = timeofCourse;	}
 void courseType :: setRoom ( string place )	{  room = place;	}
 void courseType :: setCapacity (int cap )	{  capacity = cap;	}
-void courseType :: setEnrollmentCount (int enrollCount )	{  enrollCount = enrolledCount;	}
+void courseType :: setEnrollmentCount (int enrollCount )	{  enrolledCount = enrollCount;	}
+void courseType :: incEnroll () {	enrolledCount++; }
 void courseType :: setNumProf ( int numProf  )	{ numInstructors  = numProf;	}
 
 // Getters
@@ -43,9 +46,16 @@ courseType::courseType ()
 
 courseType:: ~courseType ()
 {
-	cout << "courseType object destroyed...\n";
 }
 
+void courseType::printByRow() const
+{
+	cout << " " << left << setw(8) << getSection() << "│ " << left << setw (28) << trimString(getTitle(), 25) << "│ ";
+	cout << left << setw (6) << getDays() << "│ " << left << setw (15) << getTime() << "│ ";
+	cout << left << setw (8) << getRoom() << "│ " << left << setw(7) << getCapacity() << "│ ";
+	cout << left << setw(7) << getNumProf () << "│ " << left << setw(7) << getEnrolledCount() << endl;
+
+}
 void courseType :: print () const
 {
 	cout << left << setw(20) << getSection () << " " << getTitle () << endl;
@@ -87,12 +97,10 @@ istream &operator>> (istream &in, courseType &obj)
 
 	getline(in, quantity, '|');
 	obj.setCapacity(stoi(quantity));
-	cout << quantity << endl;
-
-	return in;
+return in;
 }
 
 bool courseType:: operator< (const courseType& b) const
 {
-	return (getSection() == b.getSection());
+	return (getCourseID() < b.getCourseID());
 }

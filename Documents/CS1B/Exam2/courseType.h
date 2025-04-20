@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <string>
+
+class studentType;
 using namespace std;
 
 class courseType
@@ -19,6 +21,7 @@ class courseType
 	void setRoom ( string place );
 	void setCapacity ( int cap );
 	void setEnrollmentCount ( int enrollCount );
+	void incEnroll ();
 	void setNumProf ( int numProf );
 	static void incCourseCount() { courseCount++; }
 	static void incCensus () { census++ ; }
@@ -44,9 +47,11 @@ class courseType
 
 	// Print function 
 	void print () const;
+	void printByRow () const;
 	
 	// Operator Overloading
 	bool operator<(const courseType& b) const;
+
 	private:
 	string section;
 	string id;
@@ -59,6 +64,6 @@ class courseType
 	int numInstructors;
 	static int courseCount;
 	static int census;
-	
+
 };
 #endif

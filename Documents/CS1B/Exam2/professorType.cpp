@@ -3,8 +3,10 @@
 #include <limits>
 #include "personType.h"
 #include "professorType.h"
+#include "selectionSort.h"
 using namespace std;
 int professorType::profCount = 0;
+const int MAX_PROF_PER_COURSE = 2;
 
 // Setters
 void professorType:: setEmpID (string EmpID) {	employeeID = EmpID;	}
@@ -19,7 +21,38 @@ int professorType :: getCount () const { return courseCount; }
 
 void professorType :: print () const
 {	
-	cout << left << setw(10) << getFName() << " " << left << setw(10) << getLName () << endl;
+	setColour(96);
+	string full;
+	cout << "┌────────────────────────────────────────────────────────────────────────┐\n";
+	cout << "│ Type : Professor                                                       │\n";
+	char firstLetter = getFName()[0];
+	full = getLName() + ", " + firstLetter + ".";
+	cout << "│ Name : " << left << setw(15) << full << " ";
+	cout << "Gender : " << left << setw(5) << getGender() << " ";
+	cout << "Height : " << left << setw(23) << getHeight() << " │\n";
+	cout << "│ DOB : " << left << setw(16) << getDOB() << " ";
+	cout << "Address : " << left << setw(37) << getAddress() << " │\n";
+	cout << "│ Professor ID : " << left << setw(8) << getEmpID();
+	cout << "Department : " << left << setw(8) << getDep();
+	cout << "Degree : " << left << setw(17) << getDegree() << " │\n";
+	cout << "│ ────────────────────────────────────────────────────────────────────── │\n";
+	cout << "│ Assigned Courses (sorted):                                             │\n";
+	
+	bool hasCourse = false;
+
+		for (int i = 0; i < courseCount; ++i) {
+    	if (courses[i] != nullptr) {
+        hasCourse = true;
+			string fullInfo = courses[i]->getSection() + " - " + courses[i]->getTitle();
+        cout << "│   " << left << setw(68) << fullInfo << " │\n";
+    			}
+			}
+
+				if (!hasCourse) {
+    			cout << "(No assigned courses)" << endl;
+		}
+	cout << "└────────────────────────────────────────────────────────────────────────┘\n";
+	resetColour();
 }
 
 professorType::professorType()
@@ -38,65 +71,140 @@ professorType:: ~professorType()
 
 }
 
-void professorType :: teachCourse (courseType *newCourse )
+void professorType::teachCourse(courseType** courseList, int totalCourses)
 {
-	if (courseCount < 3){
-		courses[courseCount] = newCourse;
-		}
+    courseCount = 0; // reset
 
-	else 	{
-	cout << "Cannot assign professor: maximum teaching load of 3 courses reached. Press Enter to continue\n";
-	cin.ignore(numeric_limits<streamsize>::max(), '\n');
-	}	
+    for (int i = 0; i < 3; ++i) { // Professors max 3 courses
+        for (int j = 0; j < totalCourses; ++j) {
+            if (courseList[j] != nullptr && courseList[j]->getCourseID() == tempCourseIDs[i]) {
+    				if (courseCount < 3) {
+        					if (courseList[j]->getNumProf() < MAX_PROF_PER_COURSE) {
+            this->courses[courseCount] = courseList[j];
+            courseCount++;
+            courseList[j]->setNumProf(courseList[j]->getNumProf() + 1); // Increment professor count
+        } else {
+            cout << "Warning: Course " << courseList[j]->getCourseID() 
+                 << " already has maximum instructors assigned.\n";
+        }
+   		 } else {
+        cout << "Cannot assign professor: maximum load of 3 courses reached." << endl;
+    			}
+    break; // done finding this course
+				}
+        }
+    }
+
+	SelectionSort(courses, courseCount, [](courseType* a, courseType* b) {
+    return *a < *b;
+		});
+
 }
 
 
+void professorType::printByRow() const
+{
+    string fullName = getLName() + ", " + getFName();
+    
+    // First line - student info
+    cout << " " << left << setw(20) << fullName
+         << "│ " << left << setw(10) << getEmpID()
+         << "│ " << left << setw(6) << getDep()
+         << "│ " << fixed << setprecision(2) << setw(5) << getCount()
+         << "│ ";
+
+    bool hasCourse = false;
+    for (int i = 0; i < courseCount; ++i) {
+        if (courses[i] != nullptr) {
+            if (!hasCourse) {
+                cout << courses[i]->getSection() << " -> " << courses[i]->getTitle() << endl;
+                hasCourse = true;
+            }
+            else {
+                cout << setw(21) << " " << "│ " 
+                     << setw(10) << " " << "│ "
+                     << setw(6) << " " << "│ "
+                     << setw(5) << " " << "│ "
+                     << courses[i]->getSection() << " -> " << courses[i]->getTitle() << endl;
+            }
+        }
+    }
+
+    if (!hasCourse) {
+        cout << "(No assigned courses)" << endl;
+    }
+}
+
 istream &operator>> (istream &in, professorType &obj)
 {
-	string full;
-	string fName = "";
-	string lName = "";
+	string profID;
+	string first;
+	string last;
+	string gender;
+	string height;
 	string address;
-	double height;
 	string dob;
-	string id;
-	string dpt;
-	string dg;
+	string dep;
+	string degree;
 
-	cout << "\nFull Name : ";
-	getline (in, full);
-	// Separate the full name to first and last
-	int position;
-	position = full.find(" ");
-	fName.append (full, 0, position);
-	lName.append(full, position+1);
-	obj.setFName(fName);
-	obj.setLName(lName);
+	getline (in, profID, '|');
+	obj.setEmpID (profID);
+	cout << profID << endl;
 
-	cout << "\nAddress : ";
-	getline (in, address);
-	obj.setAddress(address);
+	getline (in, first, '|');
+	obj.setFName (first);
+	cout << first << endl;
 
-	cout << "\nHeight : ";
-	in >> height;
-	obj.setHeight(height);
-	in.ignore();
+	getline (in, last, '|');
+	obj.setLName (last);
+	cout << last << endl;
 
-	cout << "\nDOB : ";
-	getline (in, dob );
-	obj.setDOB(dob);
+	getline (in, gender, '|');
+	obj.setGender (gender[0]);
+	cout << gender[0] << endl;
 
-	cout << "\nEmployee ID : ";
-	getline (in, id );
-	obj.setEmpID(id);
+	getline(in, height, '|');
+		if (!height.empty()) {
+    obj.setHeight(stoi(height));
+		} else {
+    obj.setHeight(0); // or some safe default
+		}
+	cout << height << endl;
 
-	cout << "\nDepartment : ";
-	getline (in, dpt );
-	obj.setDep(dpt);
+	getline (in, address, '|');
+	obj.setAddress (address);
+	cout << address << endl;
 
-	cout << "\nDegree : ";
-	getline (in, dg);
-	obj.setDegree(dg);
+	getline (in, dob, '|');
+	obj.setDOB (dob);
+	cout << dob << endl;
 
+	getline (in, dep, '|');
+	obj.setDep (dep);
+	cout << dep << endl;
+
+	getline (in, degree, '|');
+	obj.setDegree (degree);
+	cout << degree << endl;
+
+	string coursesTemp;
+	getline(in, coursesTemp);      // read the *whole courses line* here
+
+	stringstream courseStream(coursesTemp);   // now OK to wrap it
+	string courseID;
+	obj.courseCount = 0;
+
+	// Split
+		while (getline(courseStream, courseID, ',')) {
+    	if (obj.courseCount < 3) {
+        obj.tempCourseIDs[obj.courseCount] = courseID;
+        obj.courseCount++;
+			}
+		}
+
+	// Print
+	for (int i = 0; i < obj.courseCount; i++) {
+    cout << obj.tempCourseIDs[i] << endl;
+		}
 	return in;
 }

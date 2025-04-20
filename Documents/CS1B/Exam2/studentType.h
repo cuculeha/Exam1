@@ -4,7 +4,6 @@
 #include <iostream>
 #include "courseType.h"
 #include "personType.h"
-
 using namespace std;
 
 class studentType:public personType

@@ -5,6 +5,7 @@
 #include "personType.h"
 #include "studentType.h"
 #include "courseType.h"
+#include "selectionSort.h"
 using namespace std;
 int studentType::studentCount = 0;
 
@@ -41,7 +42,7 @@ void studentType::printByRow() const
     string shortClass = getClassification().substr(0, 2);
 
     // First line - student info
-    cout << "│" << left << setw(20) << fullName
+    cout << " " << left << setw(20) << fullName
          << "│ " << left << setw(10) << getID()
          << "│ " << left << setw(6) << shortClass
          << "│ " << fixed << setprecision(2) << setw(5) << getGPA()
@@ -76,16 +77,28 @@ void studentType::addCourse(courseType** courseList, int totalCourses)
     for (int i = 0; i < 5; ++i) { // max tempCourseIDs
         for (int j = 0; j < totalCourses; ++j) { // search real courses
             if (courseList[j] != nullptr && courseList[j]->getCourseID() == tempCourseIDs[i]) {
-                if (courseCount < 5) { // ⭐ TRACKER
-                    courses[courseCount] = courseList[j];
-                    courseCount++;
-                } else {
-                    cout << "Warning: Student already enrolled in maximum 5 courses. Extra courses ignored." << endl;
-                }
-                break; // no need to keep checking
-            }
+    				if (courseList[j]->getEnrolledCount() < courseList[j]->getCapacity()) { 
+        						// Capacity available for student to take more classes
+        						if (courseCount < 5) { 
+            				courses[courseCount] = courseList[j];
+            				courseCount++;
+            				courseList[j]->incEnroll(); // Increase course enrollment
+        } 
+        else {
+            cout << "Warning: Student already enrolled in maximum 5 courses. Extra courses ignored." << endl;
         }
+    } 
+    else {
+        cout << "Warning: Course " << courseList[j]->getCourseID() << " is full. Cannot enroll.\n";
     }
+    break; // once found, don't search more
+		}
+
+   }
+    }
+	SelectionSort(courses, courseCount, [](courseType* a, courseType* b) {
+    return *a < *b; // compare objects pointed by a and b
+		});
 }
 
 

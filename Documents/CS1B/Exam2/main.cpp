@@ -144,7 +144,9 @@ int main ()
 		{
 			delete courses[i];
 		}
-
+	delete [] students;
+	delete [] professors;
+	delete [] courses;
 	return 0;
 }
 

@@ -325,8 +325,7 @@ void studentwithCourses (studentType** students)
 	cout << "┌──────────────────────────────────────────────────────────────────────────────────────────────────┐\n";
 	cout << "│                                 Student Enrollment Report (SORTED)                               │\n";
 	cout << "├────────────────────┬───────────┬───────┬──────┬──────────────────────────────────────────────────┤\n";
-	cout << left << setw(22) << "│Name" << left << setw (15) << " │ ID" << left << setw(10) << "│Class";
-	cout << left << setw(9) << "│ GPA" << left << setw (52) << "│ Courses (sorted) " << " │\n";
+	cout << "│ Name               │ ID        │ Class │ GPA  │ Courses Enrolled (Sorted)                        │\n";
 	cout << "└────────────────────┴───────────┴───────┴──────┴──────────────────────────────────────────────────┘\n";
 	cout << endl;
 	resetColour();
@@ -337,6 +336,7 @@ void studentwithCourses (studentType** students)
 		}
 	setColour(96);
 	cout << "                  TOTAL STUDENT LISTED : " << studentType::getStudentCount();
+	cout << "\n                          CENSUS VALUE : " << coursesCensus;
 	cout << "\n            AVERAGE SUDENT COURSE LOAD : " << avgLoad ;
 	resetColour();
 	cout << "\n────────────────────────────────────────────────────────────────────────────────────────────────────\n";

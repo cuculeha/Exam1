@@ -115,6 +115,7 @@ void studentType::addCourse(courseType** courseList, int totalCourses)
             				courses[courseCount] = courseList[j];
             				courseCount++;
             				courseList[j]->incEnroll(); // Increase course enrollment
+								courseType::incCensus();
         } 
         else {
             cout << "Warning: Student already enrolled in maximum 5 courses. Extra courses ignored." << endl;

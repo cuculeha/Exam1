@@ -320,7 +320,8 @@ void studentwithCourses (studentType** students)
 	});
 	system("clear");
 	setColour(96);
-
+	int coursesCensus = courseType::getCensus();
+	double avgLoad = static_cast<double>(coursesCensus)/studentType::getStudentCount ();
 	cout << "┌──────────────────────────────────────────────────────────────────────────────────────────────────┐\n";
 	cout << "│                                 Student Enrollment Report (SORTED)                               │\n";
 	cout << "├────────────────────┬───────────┬───────┬──────┬──────────────────────────────────────────────────┤\n";
@@ -335,7 +336,8 @@ void studentwithCourses (studentType** students)
 		cout << " ────────────────────────────────────────────────────────────────────────────────────────────────── \n";
 		}
 	setColour(96);
-	cout << right << setw (45) << "TOTAL STUDENT LISTED : " << studentType::getStudentCount();
+	cout << "                  TOTAL STUDENT LISTED : " << studentType::getStudentCount();
+	cout << "\n            AVERAGE SUDENT COURSE LOAD : " << avgLoad ;
 	resetColour();
 	cout << "\n────────────────────────────────────────────────────────────────────────────────────────────────────\n";
 	cout << "Press Enter to Continue..\n";
@@ -423,19 +425,6 @@ void displayAll (personType** people, int totalPersons)
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
-
-void beforeQuit()
-{
-	if (activeAllocations == 0)
-    std::cout << "Yeayy.. All dynamic memory was successfully deallocated.\n";
-	else
-    std::cout << " Opss.. Memory leak detected. You missed deleting something.\n";
-
-	cout << "Press Enter to Quit..\n";
-	cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-}
-
 void professorLoad (professorType** professors)
 {
 
@@ -466,6 +455,18 @@ void professorLoad (professorType** professors)
 	resetColour();
 	cout << "────────────────────────────────────────────────────────────────\n";
 	cout << "Press Enter to Continue..\n";
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+}
+
+void beforeQuit()
+{
+	if (activeAllocations == 0)
+    std::cout << "Yeayy.. All dynamic memory was successfully deallocated.\n";
+	else
+    std::cout << " Opss.. Memory leak detected. You missed deleting something.\n";
+
+	cout << "Press Enter to Quit..\n";
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 }

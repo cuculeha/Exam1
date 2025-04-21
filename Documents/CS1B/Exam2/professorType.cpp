@@ -71,6 +71,16 @@ professorType:: ~professorType()
 
 }
 
+void professorType :: briefPrint () const
+{
+	string fullName = getLName() + ", " + getFName();
+	cout << " " <<left << setw(20) << fullName;
+	cout << "│ " << left << setw (9) << getEmpID();
+	cout << "│ " << left << setw(14) << getDep();
+	cout << "│ " << left << setw(12) << getCount ();
+	cout << endl;
+}
+
 void professorType::teachCourse(courseType** courseList, int totalCourses)
 {
     courseCount = 0; // reset

@@ -33,7 +33,7 @@ void profwithCourses ( professorType** professors);
 void courseDisplay (courseType** courses);
 void displayAll (personType** people, int totalPersons);
 void beforeQuit();
-
+void professorLoad (professorType** professors);
 int main ()
 {
 
@@ -82,7 +82,8 @@ int main ()
 			break;
 
 			case '6':
-			cout << "Havent Implemented Yet..Press Enter to Continue\n";
+			professorLoad (professors);
+			cout << "Press Enter to Continue\n";
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			break;
 
@@ -406,6 +407,40 @@ void beforeQuit()
     std::cout << " Opss.. Memory leak detected. You missed deleting something.\n";
 
 	cout << "Press Enter to Quit..\n";
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+}
+
+void professorLoad (professorType** professors)
+{
+
+	SelectionSort (professors, professorType:: getProfCount(), [](professorType *a, professorType *b) 
+			{
+				return *a < *b;
+	});
+
+	system("clear");
+	int totalCourses = 0;
+	double avgLoad;
+
+	cout << "┌──────────────────────────────────────────────────────────────┐\n";
+	cout << "│               Course Enrollment Report (SORTED)              │\n";
+	cout << "├────────────────────┬──────────┬───────────────┬──────────────┤\n";
+	cout << "│  Name              │ ID       │ Dept       	│ # of courses │\n";
+	cout << "└────────────────────┴──────────┴───────────────┴──────────────┘\n";
+
+	for (int i =0 ; i < professorType::getProfCount (); i ++)	{
+		professors[i]->briefPrint();
+		cout << " ────────────────────────────────────────────────────────────── \n";
+		totalCourses += professors[i]->getCount();
+		}
+	setColour(96);
+	cout << " TOTAL PROFESSOR LISTED : " << professorType::getProfCount();
+	avgLoad = static_cast<double>(totalCourses)/professorType::getProfCount ();
+	cout << "\n AVERAGE LOAD : " << avgLoad << endl;
+	resetColour();
+	cout << "────────────────────────────────────────────────────────────────\n";
+	cout << "Press Enter to Continue..\n";
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 }

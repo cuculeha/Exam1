@@ -27,6 +27,7 @@ public:
 	// Print methods
 	void print() const override;
 	void printByRow () const;
+	void briefPrint () const;
 
 	private:
 	string employeeID;

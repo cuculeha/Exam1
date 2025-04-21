@@ -105,11 +105,7 @@ int main ()
 
 			case '8':
 			{
-			if (people!=nullptr) {
-			for (int i = 0; i < studentType::getStudentCount()+professorType::getProfCount() ; i++){
-							delete people[i];	}
-							delete [] people;
-				}
+		
 			if (students != nullptr){
 			for (int i = 0; i < studentType::getStudentCount(); i++){
 								delete students[i];	}
@@ -125,7 +121,7 @@ int main ()
 								delete courses[i];	}
 								delete [] courses;
 				}
-
+			if (people != nullptr) delete [] people;
 				beforeQuit();
 				}
 				return 0;

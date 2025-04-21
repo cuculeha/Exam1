@@ -70,25 +70,47 @@ int main ()
 			break;
 
 			case '3':
+			if (!readFileAlready){	
+			cout << "Nothing to show for student with courses. Load the file first (Option 1)\n";
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			}
+			else{
 			studentwithCourses (students);
+			}
 			break;
 
 			case '4':
+			if (!readFileAlready){	
+			cout << "Nothing to show for professors with courses. Load the file first (Option 1)\n";
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			}
+			else {
 			profwithCourses (professors);
+			}
 			break;
 
 			case '5':
+			if (!readFileAlready){	
+			cout << "Nothing to show for courses report. Load the file first (Option 1)\n";
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			}
+			else{
 			courseDisplay (courses);
+			}
 			break;
 
 			case '6':
-			professorLoad (professors);
-			cout << "Press Enter to Continue\n";
+			if (!readFileAlready){	
+			cout << "Nothing to show for professorLoad. Load the file first (Option 1)\n";
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			}
+			else{
+			professorLoad (professors);
+			}
 			break;
 
 			case '7':
-			{
+			if (readFileAlready)	{
 			int totalPersons = studentType::getStudentCount() + professorType::getProfCount();
 			people = new personType*[totalPersons];
 				int index = 0;
@@ -101,6 +123,11 @@ int main ()
     						people[index++] = professors[i];
 							}
 			displayAll (people, totalPersons);
+			}
+
+			else{
+			cout << "Nothing to show. Load the file first (Option 1)\n";
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			}
 			break;
 
@@ -356,24 +383,22 @@ void courseDisplay (courseType** courses)
 	});
  	system("clear");
 	setColour(96);
-	cout << "┌──────────────────────────────────────────────────────────────────────────────────────────────────┐\n";
-	cout << "│                                  Course Enrollment Report (SORTED)                               │\n";
-	cout << "├────────┬─────────────────────────────┬───────┬──────────────┬─────────┬────────┬────────┬────────┤\n";
-	cout << left << setw(8) << "│ Section" << left << setw (32) << "│ Title" << left << setw(10) << "│ Days";
-	cout << left << setw(17) << "│ Time" << left << setw (12) << "│ Room " << left << setw(11) << "│ Cap";
-	cout << left << setw(10) << "│ Inst" << left << setw (12) << " │ Enr " << "│\n";
-	cout << "└────────┴─────────────────────────────┴───────┴──────────────┴─────────┴────────┴────────┴────────┘\n";
+	cout << "┌───────────────────────────────────────────────────────────────────────────────────────────────────────┐\n";
+	cout << "│                                  Course Enrollment Report (SORTED)                                    │\n";
+	cout << "├────────┬─────────────────────────────┬───────┬──────────────┬──────────────┬────────┬────────┬────────┤\n";
+	cout << "│ Section│ Title                       │ Days  │ Time         │ Room         │ Cap    │ Ins    │  Enr   │\n";
+	cout << "└────────┴─────────────────────────────┴───────┴──────────────┴──────────────┴────────┴────────┴────────┘\n";
 	resetColour();
 
 	for (int i =0 ; i < courseType::getCourseCount (); i ++)	{
 		courses[i]->printByRow();
-		cout << " ────────────────────────────────────────────────────────────────────────────────────────────────── \n";
+		cout << " ─────────────────────────────────────────────────────────────────────────────────────────────────────── \n";
 		}
 
 	setColour(96);
 	cout << right << setw (55) << "TOTAL COURSES LISTED : " << courseType::getCourseCount();
 	resetColour();
-	cout << "\n────────────────────────────────────────────────────────────────────────────────────────────────────\n";
+	cout << "\n─────────────────────────────────────────────────────────────────────────────────────────────────────────\n";
 	cout << "Press Enter to Continue..\n";
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
@@ -382,9 +407,9 @@ void courseDisplay (courseType** courses)
 void displayAll (personType** people, int totalPersons)
 {
 		system("clear");
-		cout << "┌─────────────────────────────────────────────────────────────────────────────┐\n";
-		cout << "│                         ALL PEOPLE REPORT (SORTED)                          │\n";
-		cout << "└─────────────────────────────────────────────────────────────────────────────┘\n";
+		cout << "┌───────────────────────────────────────────────────────────────────────────────────────┐\n";
+		cout << "│                             ALL PEOPLE REPORT (SORTED)                                │\n";
+		cout << "└───────────────────────────────────────────────────────────────────────────────────────┘\n";
 		SelectionSort (people, totalPersons, [](personType *a, personType *b) 
 			{
 				return *a < *b;

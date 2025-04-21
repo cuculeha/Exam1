@@ -35,20 +35,20 @@ void studentType :: print () const
 {	
 	setColour(93);
 	string full;
-	cout << "┌─────────────────────────────────────────────────────────────────────────────┐\n";
-	cout << "│ Type : Student                                                              │\n";
+	cout << "┌───────────────────────────────────────────────────────────────────────────────────────┐\n";
+	cout << "│ Type : Student                                                                        │\n";
 	char firstLetter = getFName()[0];
 	full = getLName() + ", " + firstLetter + ".";
 	cout << "│ Name : " << left << setw(15) << full << " ";
 	cout << "Gender : " << left << setw(15) << getGender() << " ";
-	cout << "Height : " << left << setw(18) << getHeight() << " │\n";
+	cout << "Height : " << left << setw(28) << getHeight() << " │\n";
 	cout << "│ DOB : " << left << setw(16) << getDOB() << " ";
-	cout << "Address : " << left << setw(42) << getAddress() << " │\n";
+	cout << "Address : " << left << setw(52) << getAddress() << " │\n";
 	cout << "│ Student ID : " << left << setw(10) << getID();
 	cout << "Classification : " << left << setw(8) << getClassification();
-	cout << "GPA : " << left << setw(21) << getGPA() << " │\n";
-	cout << "│ ─────────────────────────────────────────────────────────────────────────── │\n";
-	cout << "│ Assigned Courses (sorted):                                                  │\n";
+	cout << "GPA : " << left << setw(31) << getGPA() << " │\n";
+	cout << "│ ───────────────────────────────────────────────────────────────────────────────────── │\n";
+	cout << "│ Assigned Courses (sorted):                                                            │\n";
 	
 	bool hasCourse = false;
 
@@ -56,14 +56,14 @@ void studentType :: print () const
     	if (courses[i] != nullptr) {
         hasCourse = true;
 			string fullInfo = courses[i]->getSection() + " - " + courses[i]->getTitle();
-        cout << "│   " << left << setw(73) << fullInfo << " │\n";
+        cout << "│   " << left << setw(83) << fullInfo << " │\n";
     			}
 			}
 
 				if (!hasCourse) {
     			cout << "(No assigned courses)" << endl;
 		}
-	cout << "└─────────────────────────────────────────────────────────────────────────────┘\n";
+	cout << "└───────────────────────────────────────────────────────────────────────────────────────┘\n";
 	resetColour();
 }
 

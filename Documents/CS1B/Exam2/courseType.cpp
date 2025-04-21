@@ -52,7 +52,7 @@ void courseType::printByRow() const
 {
 	cout << " " << left << setw(8) << getSection() << "│ " << left << setw (28) << trimString(getTitle(), 25) << "│ ";
 	cout << left << setw (6) << getDays() << "│ " << left << setw (15) << getTime() << "│ ";
-	cout << left << setw (8) << getRoom() << "│ " << left << setw(7) << getCapacity() << "│ ";
+	cout << left << setw (13) << getRoom() << "│ " << left << setw(7) << getCapacity() << "│ ";
 	cout << left << setw(7) << getNumProf () << "│ " << left << setw(7) << getEnrolledCount() << endl;
 
 }

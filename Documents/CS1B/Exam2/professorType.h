@@ -19,6 +19,7 @@ public:
 	void teachCourse (courseType** courses, int totalCourses );
 	static int getProfCount () 		{	return profCount;	}
 	static void incProfCount() {	++profCount; }
+	void manualInput();
 
 	// Constructors
 	professorType();

@@ -25,7 +25,7 @@ using namespace std;
 
 char showMainMenu ();
 void readFile (const string &input, studentType** &students, professorType** &professors, courseType** &courses);
-void addNewStudent(studentType**& students, studentType* newStudent);
+void addNewStudent(studentType** &students, studentType* newStudent);
 void addNewProf (professorType** &professors, professorType* newProfessor);
 void addNewCourse (courseType** &courses, courseType* newCourse);
 void studentwithCourses ( studentType** students);
@@ -35,7 +35,8 @@ void displayAll (personType** people, int totalPersons);
 void professorLoad (professorType** professors);
 void beforeQuit();
 char handleManually ();
-void addData (char manualInput, professorType** professors, studentType** students, courseType** courses );
+void addData (char manualInput, professorType** &professors, studentType** &students, courseType** &courses );
+void assignCourseManually (char manual, professorType** &professors, studentType** &students, courseType** &courses);
 
 int main ()
 {
@@ -48,6 +49,7 @@ int main ()
 	char choice;
 	char manualInput;
 	bool dataLoaded = false;
+	bool fileLoaded = false;
 
 	do {
 	choice = showMainMenu();
@@ -55,9 +57,9 @@ int main ()
 		{
 			
 			case '1':
-			if (dataLoaded == false){
+			if (!fileLoaded){
 			readFile("input.txt", students, professors, courses);
-			dataLoaded = true;
+			fileLoaded = true;
 			}
 
 			else{
@@ -69,17 +71,18 @@ int main ()
 
 			case '2':
 			manualInput = handleManually ();
-			if (manualInput > 0 && manualInput < 4){
+			if (manualInput > '0' && manualInput < '4'){
 			addData (manualInput, professors, students, courses );
+			dataLoaded = true;
 			}
 
-			else if (manualInput == 4)	{
-				// Assign a student
+			else if (manualInput > '3' && manualInput < '6')	{
+				assignCourseManually (manualInput, professors, students, courses);
 				}
 			break;
 
 			case '3':
-			if (!dataLoaded){	
+			if (!dataLoaded && !fileLoaded){	
 			cout << "Nothing to show for student with courses. Load the data first (Option 1 & 2)\n";
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			}
@@ -89,7 +92,7 @@ int main ()
 			break;
 
 			case '4':
-			if (!dataLoaded){	
+			if (!dataLoaded && !fileLoaded) {	
 			cout << "Nothing to show for professors with courses. Load the data first (Option 1 & 2)\n";
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			}
@@ -99,7 +102,7 @@ int main ()
 			break;
 
 			case '5':
-			if (!dataLoaded){	
+			if (!dataLoaded && !fileLoaded){	
 			cout << "Nothing to show for courses report. Load the data first (Option 1 & 2)\n";
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			}
@@ -109,7 +112,7 @@ int main ()
 			break;
 
 			case '6':
-			if (!dataLoaded){	
+			if (!dataLoaded && !fileLoaded){	
 			cout << "Nothing to show for professorLoad. Load the data first (Option 1 & 2)\n";
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			}
@@ -119,7 +122,7 @@ int main ()
 			break;
 
 			case '7':
-			if (!dataLoaded)	{
+			if (dataLoaded || fileLoaded)	{
 			int totalPersons = studentType::getStudentCount() + professorType::getProfCount();
 			people = new personType*[totalPersons];
 				int index = 0;
@@ -135,7 +138,7 @@ int main ()
 			}
 
 			else{
-			cout << "Nothing to show. Load the file first (Option 1)\n";
+			cout << "Nothing to show. Load the file first (Option 1 & 2)\n";
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			}
 			break;
@@ -174,7 +177,6 @@ int main ()
 
 char handleManually()
 {
-
 	char choice;
 	system ("clear");
 	setColour(96);
@@ -319,9 +321,9 @@ void addNewStudent(studentType**& students, studentType* newStudent)
 		for (int i = 0; i < studentType::getStudentCount(); ++i) {
         newArray[i] = students[i];
     }
+		delete[] students;
 	}
 		newArray[studentType::getStudentCount()] = newStudent;
-		delete[] students;
 		students = newArray;
 		studentType::incStudentCount();
 }
@@ -372,11 +374,12 @@ void studentwithCourses (studentType** students)
 	cout << "└────────────────────┴───────────┴───────┴──────┴──────────────────────────────────────────────────┘\n";
 	cout << endl;
 	resetColour();
-
 	for (int i =0 ; i < studentType::getStudentCount (); i ++)	{
+		if (students[i]!= nullptr){
 		students[i]->printByRow();
 		cout << " ────────────────────────────────────────────────────────────────────────────────────────────────── \n";
 		}
+	}
 	setColour(96);
 	cout << "                  TOTAL STUDENT LISTED : " << studentType::getStudentCount();
 	cout << "\n                          CENSUS VALUE : " << coursesCensus;
@@ -517,10 +520,10 @@ void beforeQuit()
 
 }
 
-void addData (char manualInput, professorType** professors, studentType** students, courseType** courses )
+void addData (char manualInput, professorType** &professors, studentType** &students, courseType** &courses )
 {
 	switch (manualInput)	{
-		case '1': {
+		case '1':	{
 		studentType* tempS = new studentType();
 		tempS->manualInput();
 		addNewStudent(students, tempS);
@@ -534,12 +537,58 @@ void addData (char manualInput, professorType** professors, studentType** studen
 		break;
 		}
 
-		case '3': {
+		case '3':	{
 		courseType* tempC = new courseType();
 		tempC->manualInput();
 		addNewCourse(courses, tempC);
 		break;
 		}
+
 	}
+}
+
+void assignCourseManually (char manual, professorType** &professors, studentType** &students, courseType** &courses)
+{
+	string id;
+	string courseID;
+
+	switch (manual){	
+	case '4': {
+	cout << "Enter the student ID : ";
+	getline (cin, id);
+	
+	studentType* s = findById(students, studentType::getStudentCount(), id, &studentType::getID);
+	if (s == nullptr) {
+   cout << "Student with ID : " << id << " not found. Press Enter to Continue";
+ 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	return;
+		}
+	
+
+	cout << "Enter Course ID the student want to enroll in :";
+	getline (cin, courseID);
+
+	courseType* c = findById(courses, courseType::getCourseCount(), courseID, &courseType::getCourseID);
+	if ( c == nullptr ){
+		cout << "Course ID Not Found. Press Enter to Continue\n";
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		return;
+	}
+
+	// Finally both courseID and student ID is valid..
+   s->enrollInCourse(c);
+	cout << "Press Enter to Continue\n";
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	}
+	break;
+
+
+	case '5':
+
+
+	break;
+	}
+
+return;
 
 }

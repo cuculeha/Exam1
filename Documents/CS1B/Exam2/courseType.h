@@ -27,6 +27,7 @@ class courseType
 	static void incCensus () { census++ ; }
 	void enrollStudent (studentType *newStudent);
 	void allocateEnrolledArray();
+	void manualInput();
 
 	// Getters
 	string getCourseID () const;

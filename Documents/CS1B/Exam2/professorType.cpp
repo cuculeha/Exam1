@@ -209,3 +209,55 @@ istream &operator>> (istream &in, professorType &obj)
 		}
 	return in;
 }
+
+
+void professorType :: manualInput () 
+
+{
+	string id;
+	string first;
+	string last;
+	string gender;
+	string height;
+	string address;
+	string dob;
+	string dg;
+	string dpt;
+
+	cout << "Professor ID : \n";
+	getline (cin, id);
+	setEmpID (id);
+
+	cout << "First Name : \n";
+	getline (cin, first);
+	setFName (first);
+
+	cout << "Last Name : \n";
+	getline (cin, last);
+	setLName (last);
+
+	cout << "Gender : \n";
+	getline (cin, gender);
+	setGender (gender[0]);
+
+	cout << "Height : \n";
+	getline (cin, height);
+	setHeight (stoi(height));
+
+	cout << "Address : \n";
+	getline (cin, address);
+	setAddress (address);
+
+	cout << "DOB : \n";
+	getline (cin, dob);
+	setDOB (dob);
+
+	cout << "Degree : \n";
+	getline (cin, dg);
+	setDegree (dg);
+
+	cout << "Department : \n";
+	getline (cin, dpt);
+	setDep (dpt);
+
+}

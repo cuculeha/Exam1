@@ -141,3 +141,45 @@ void courseType::showStudents() const
         }
     }
 }
+
+void courseType :: manualInput ()
+{
+	string code;
+	string section;
+	string title;
+	string days;
+	string room;
+	string time;
+	int cap;
+
+	cout << "Course Code : ";
+	getline (cin, code);
+	setCourseID(code);
+
+	cout << "Course Section : ";
+	getline (cin, section);
+	setSection(section);
+
+	cout << "Course Title : ";
+	getline (cin, title);
+	setTitle(title);
+
+	cout << "Days : ";
+	getline (cin, days);
+	setDays(days);
+
+	cout << "Time : ";
+	getline (cin, time);
+	setTime (time);
+
+	cout << "Room : ";
+	getline (cin, room);
+	setRoom(room);
+
+	cout << "Course Capacity :";
+	cin >> cap;
+	cin.ignore(100, '\n');
+	setCapacity(cap);
+
+	allocateEnrolledArray();
+}

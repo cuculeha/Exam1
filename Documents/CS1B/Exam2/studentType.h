@@ -18,6 +18,7 @@ public:
 	void setClassification (string studentCLS);
 	static void incStudentCount () 	{	++studentCount; 	}
 	void addCourse (courseType** courses, int totalCourses );
+	void enrollInCourse(courseType* c);
 	void incCourseCount() { courseCount++; };
 	void manualInput();
 
@@ -31,7 +32,7 @@ public:
 	~studentType();
 	void print() const override;
 	void printByRow () const;
-
+	
 private:
   string id; //added every id 'should' be unique
 	double gpa;

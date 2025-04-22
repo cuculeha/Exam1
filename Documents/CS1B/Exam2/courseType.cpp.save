@@ -131,7 +131,8 @@ void courseType::showStudents() const
 		cout << setw (18) << left << "" << "───────────────┴─────────┴─────────┴──────\n";
     for (int i = 0; i < enrolledCount; i++)
     {
-        if (enrolledStudents[i] != nullptr) {
+		cout << "inside loopin\n";
+        //if (enrolledStudents[i] != nullptr) {
 			string format = enrolledStudents[i]->getLName() + ", " + enrolledStudents[i]->getFName()[0] + ".";
             cout << setw (18) << left << "" << setw (15) << left << format << "│ ";
 				cout << setw (8) << left << enrolledStudents[i]->getID() << "│ " ;

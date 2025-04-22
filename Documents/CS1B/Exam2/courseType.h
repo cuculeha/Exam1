@@ -25,6 +25,9 @@ class courseType
 	void setNumProf ( int numProf );
 	static void incCourseCount() { courseCount++; }
 	static void incCensus () { census++ ; }
+	void enrollStudent (studentType* newStudent);
+	void allocateEnrolledArray();
+	void manualInput();
 
 	// Getters
 	string getCourseID () const;
@@ -48,7 +51,8 @@ class courseType
 	// Print function 
 	void print () const;
 	void printByRow () const;
-	
+	void showStudents () const;
+
 	// Operator Overloading
 	bool operator<(const courseType& b) const;
 
@@ -64,6 +68,7 @@ class courseType
 	int numInstructors;
 	static int courseCount;
 	static int census;
+	studentType** enrolledStudents;
 
 };
 #endif

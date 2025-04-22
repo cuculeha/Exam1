@@ -6,7 +6,7 @@
 #include "selectionSort.h"
 using namespace std;
 int professorType::profCount = 0;
-const int MAX_PROF_PER_COURSE = 2;
+const int MAX_PROF_PER_COURSE = 3;
 
 // Setters
 void professorType:: setEmpID (string EmpID) {	employeeID = EmpID;	}
@@ -86,31 +86,16 @@ void professorType::teachCourse(courseType** courseList, int totalCourses)
     courseCount = 0; // reset
 
     for (int i = 0; i < 3; ++i) { // Professors max 3 courses
-        for (int j = 0; j < totalCourses; ++j) {
-            if (courseList[j] != nullptr && courseList[j]->getCourseID() == tempCourseIDs[i]) {
-    				if (courseCount < 3) {
-        					if (courseList[j]->getNumProf() < MAX_PROF_PER_COURSE) {
-            this->courses[courseCount] = courseList[j];
-            courseCount++;
-            courseList[j]->setNumProf(courseList[j]->getNumProf() + 1); // Increment professor count
-        } else {
-            cout << "Warning: Course " << courseList[j]->getCourseID() 
-                 << " already has maximum instructors assigned.\n";
-        }
-   		 } else {
-        cout << "Cannot assign professor: maximum load of 3 courses reached." << endl;
-    			}
-    break; // done finding this course
-				}
+        if (tempCourseIDs[i] != "") {
+            for (int j = 0; j < totalCourses; ++j) {
+                if (courseList[j] != nullptr && courseList[j]->getCourseID() == tempCourseIDs[i]) {
+                    safeAssign(courseList[j]);
+                    break; // matched and assigned
+                }
+            }
         }
     }
-
-	SelectionSort(courses, courseCount, [](courseType* a, courseType* b) {
-    return *a < *b;
-		});
-
 }
-
 
 void professorType::printByRow() const
 {
@@ -122,27 +107,31 @@ void professorType::printByRow() const
          << "│ " << left << setw(6) << getDep()
          << "│ " << fixed << setprecision(2) << setw(5) << getCount()
          << "│ ";
+		if (courseCount > 0)
+		cout << courseCount << " courses assigned\n";
 
-    bool hasCourse = false;
-    for (int i = 0; i < courseCount; ++i) {
-        if (courses[i] != nullptr) {
-            if (!hasCourse) {
-                cout << courses[i]->getSection() << " -> " << courses[i]->getTitle() << endl;
-                hasCourse = true;
-            }
-            else {
-                cout << setw(21) << " " << "│ " 
-                     << setw(10) << " " << "│ "
-                     << setw(6) << " " << "│ "
-                     << setw(5) << " " << "│ "
-                     << courses[i]->getSection() << " -> " << courses[i]->getTitle() << endl;
-            }
-        }
-    }
-
-    if (!hasCourse) {
+    	if (courseCount == 0) {
         cout << "(No assigned courses)" << endl;
-    }
+    	}
+		cout << " Assigned Courses :\n";
+		cout << "      Section │ Title                       │ Day   │ Time         │ Room      \n";
+
+		if (courseCount > 0)
+		cout << "     ─────────┴─────────────────────────────┴───────┴──────────────┴──────────── \n";
+		// Courses Assigned to the professor
+		for (int i = 0 ; i < courseCount ; i++)
+		{
+			if (courses[i] != nullptr ){
+			// Print course details
+			cout << "      " << left << setw(8) << courses[i]->getSection() << "│ " << left << setw (28) << trimString(courses[i]->getTitle(), 25) << "│ ";
+			cout << left << setw (6) << courses[i]->getDays() << "│ " << left << setw (15) << courses[i]->getTime() << "│ ";
+			cout << left << setw (13) << courses[i]->getRoom() << endl;
+			// Print each persons
+			courses[i]->showStudents();
+			cout << endl;
+			}
+
+		}
 }
 
 istream &operator>> (istream &in, professorType &obj)
@@ -203,4 +192,83 @@ istream &operator>> (istream &in, professorType &obj)
 			}
 		}
 	return in;
+}
+
+
+void professorType :: manualInput () 
+
+{
+	string id;
+	string first;
+	string last;
+	string gender;
+	string height;
+	string address;
+	string dob;
+	string dg;
+	string dpt;
+
+	cout << "Professor ID : \n";
+	getline (cin, id);
+	setEmpID (id);
+
+	cout << "First Name : \n";
+	getline (cin, first);
+	setFName (first);
+
+	cout << "Last Name : \n";
+	getline (cin, last);
+	setLName (last);
+
+	cout << "Gender : \n";
+	getline (cin, gender);
+	setGender (gender[0]);
+
+	cout << "Height : \n";
+	getline (cin, height);
+	setHeight (stoi(height));
+
+	cout << "Address : \n";
+	getline (cin, address);
+	setAddress (address);
+
+	cout << "DOB : \n";
+	getline (cin, dob);
+	setDOB (dob);
+
+	cout << "Degree : \n";
+	getline (cin, dg);
+	setDegree (dg);
+
+	cout << "Department : \n";
+	getline (cin, dpt);
+	setDep (dpt);
+
+}
+
+void professorType::safeAssign(courseType* c)
+{
+    if (courseCount >= 3) {
+        cout << "Professor already assigned to 3 courses. Cannot assign more.\n";
+        return;
+    }
+
+    if (c->getNumProf() >= MAX_PROF_PER_COURSE) {
+        cout << "Warning: Course " << c->getCourseID() << " already has maximum instructors assigned.\n";
+        return;
+    }
+
+    courses[courseCount] = c;
+    courseCount++;
+    c->setNumProf(c->getNumProf() + 1); // Don't forget to increment number of professors!
+
+    setColour(93);
+    cout << "┌──────────────────────────────────────────────────────────────────┐\n";
+    cout << "   Professor successfully assigned to course " << c->getCourseID() << endl;
+    cout << "└──────────────────────────────────────────────────────────────────┘\n";
+    resetColour();
+
+    SelectionSort(courses, courseCount, [](courseType* a, courseType* b) {
+        return *a < *b;
+    });
 }

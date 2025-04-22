@@ -3,6 +3,9 @@
 
 #include <string>
 #include <iomanip>
+#include <iostream>
+
+using namespace std;
 
 template <typename T, typename Compare = std::less<T>>
 
@@ -16,6 +19,19 @@ void SelectionSort(T arr[], int size, Compare comp = Compare()) {
         }
         std::swap(arr[i], arr[minIndex]);
     }
+}
+
+
+template<typename T>
+T* findById(T** array, int size, string idToFind, string (T::*getIdFunc)() const) {
+    for (int i = 0; i < size; ++i) {
+        if (array[i] != nullptr) {
+            if ((array[i]->*getIdFunc)() == idToFind) {
+                return array[i];
+            }
+        }
+    }
+    return nullptr;
 }
 
 #endif

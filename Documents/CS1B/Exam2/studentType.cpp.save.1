@@ -29,6 +29,7 @@ studentType:: studentType()
 	tempCourseIDs[i] = "";
 	}
 
+
 	courseCount = 0;
 	gpa = 2.5;
 	id = "";
@@ -65,7 +66,7 @@ void studentType :: print () const
 			}
 
 				if (!hasCourse) {
-    			cout << "  (No assigned courses)" << endl;
+    			cout << "(No assigned courses)" << endl;
 		}
 	cout << "└───────────────────────────────────────────────────────────────────────────────────────┘\n";
 	resetColour();
@@ -74,9 +75,9 @@ void studentType :: print () const
 
 void studentType::printByRow() const
 {
-
     string fullName = getLName() + ", " + getFName();
     string shortClass = getClassification().substr(0, 2);
+
     // First line - student info
     cout << " " << left << setw(20) << fullName
          << "│ " << left << setw(10) << getID()
@@ -84,77 +85,58 @@ void studentType::printByRow() const
          << "│ " << fixed << setprecision(2) << setw(5) << getGPA()
          << "│ ";
 
-
-	if (courseCount == 0 ) {
-        cout << "(No enrolled courses)" << endl;
-        return;  // Exit function early
-    }
-
     bool hasCourse = false;
-    for (int i = 0; i < courseCount; ++i) {
-        if (courses[i] != nullptr) {
-            if (!hasCourse) {
-                cout << courses[i]->getSection() << " -> " << courses[i]->getTitle() << endl;
-                hasCourse = true;
-            }
-            else {
-                cout << setw(21) << " " << "│ " 
-                     << setw(10) << " " << "│ "
-                     << setw(6) << " " << "│ "
-                     << setw(5) << " " << "│ "
-                     << courses[i]->getSection() << " -> " << courses[i]->getTitle() << endl;
-            }
-        }
+				for (int i = 0; i < courseCount; ++i) {
+    			if (courses[i] != nullptr) {
+       			 if (!hasCourse) {
+            cout << courses[i]->getSection() << " -> " << courses[i]->getTitle() << endl;
+            hasCourse = true;
+        					}
+        					else {
+            				cout << setw(21) << " " << setw(10) << " " << setw(6) << " " << setw(5) << " ";
+            			cout << courses[i]->getSection() << " -> " << courses[i]->getTitle() << endl;
+        					}
     }
-
+}
+if (!hasCourse) {
+    cout << "(No enrolled courses)" << endl;
 }
 
-void studentType::safeEnroll(courseType* c)
-{
-    if (courseCount >= 5) {
-        cout << "Warning: Student already enrolled in maximum 5 courses. Cannot enroll more.\n";
-        return;
+    if (!hasCourse) {
+        cout << "(No enrolled courses)" << endl;
     }
-
-    if (c->getEnrolledCount() >= c->getCapacity()) {
-        cout << "Warning: Course " << c->getCourseID() << " is full. Cannot enroll.\n";
-        return;
-    }
-
-    courses[courseCount] = c;
-    courseCount++;
-
-    courseType::incCensus();
-    c->enrollStudent(this);
-
-    cout << "Student successfully enrolled in course " << c->getCourseID() << endl;
-    
-    // Always keep courses sorted
-    SelectionSort(courses, courseCount, [](courseType* a, courseType* b) {
-        return *a < *b;
-    });
 }
-
-// Manual Enrollment (user selecting course pointer)
-void studentType::enrollInCourse(courseType* c)
-{
-    safeEnroll(c);
-}
-
+// Add course in a student
 void studentType::addCourse(courseType** courseList, int totalCourses)
 {
-    courseCount = 0; // reset existing courses
+    courseCount = 0; // reset
 
-    for (int i = 0; i < 5; ++i) { // for each tempCourseID
-        if (tempCourseIDs[i] != "") {
-            for (int j = 0; j < totalCourses; ++j) { // search real course list
-                if (courseList[j] != nullptr && courseList[j]->getCourseID() == tempCourseIDs[i]) {
-                    safeEnroll(courseList[j]); // 🔥
-                    break; // found and enrolled, no need to keep searching
-                }
-            }
+    for (int i = 0; i < 5; ++i) { // max tempCourseIDs
+        for (int j = 0; j < totalCourses; ++j) { // search real courses
+            if (courseList[j] != nullptr && courseList[j]->getCourseID() == tempCourseIDs[i]) {
+    				if (courseList[j]->getEnrolledCount() < courseList[j]->getCapacity()) { 
+        						// Capacity available for student to take more classes
+        						if (courseCount < 5) { 
+            				courses[courseCount] = courseList[j];
+            				courseCount++;
+								courseType::incCensus();  // Increment Census
+								courseList[j]->enrollStudent(this);  // Tell course to take students
+        } 
+        else {
+            cout << "Warning: Student already enrolled in maximum 5 courses. Extra courses ignored." << endl;
         }
+    } 
+    else {
+        cout << "Warning: Course " << courseList[j]->getCourseID() << " is full. Cannot enroll.\n";
     }
+    break; // once found, don't search more
+		}
+
+   }
+    }
+	SelectionSort(courses, courseCount, [](courseType* a, courseType* b) {
+    return *a < *b; // compare objects pointed by a and b
+		});
 }
 
 
@@ -232,9 +214,6 @@ istream &operator>> (istream &in, studentType &obj)
 void studentType :: manualInput () 
 
 {
-
-	courseCount = 0;
-
 	string id;
 	string first;
 	string last;
@@ -281,8 +260,9 @@ void studentType :: manualInput ()
 	getline (cin, classf);
 	setClassification (classf);
 
-	for (int i = 0; i < 5; i++){	
-	tempCourseIDs[i] = "";
-	}
+	for (int i = 0; i < 5; i++){
+		tempCourseIDs[i] = "";
+		courses[i]=nullptr;
+		}
 
 }

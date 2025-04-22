@@ -17,8 +17,10 @@ public:
 	string getDegree () const;
 	int getCount() const;
 	void teachCourse (courseType** courses, int totalCourses );
+	void safeAssign (courseType* c);
 	static int getProfCount () 		{	return profCount;	}
 	static void incProfCount() {	++profCount; }
+	void manualInput();
 
 	// Constructors
 	professorType();

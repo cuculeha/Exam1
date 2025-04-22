@@ -636,7 +636,7 @@ void assignCourseManually (char manual, professorType** &professors, studentType
 	}
 
 	// Finally both courseID and student ID is valid..
-   s->enrollInCourse(c);
+ 	s->safeEnroll(c);
 	cout << "Press Enter to Continue\n";
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	}
@@ -667,7 +667,7 @@ void assignCourseManually (char manual, professorType** &professors, studentType
 	}
 
 	// Finally both courseID and student ID is valid..
-   p->assignCourse(c);
+   p->safeAssign(c);
 	cout << "Press Enter to Continue\n";
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	}

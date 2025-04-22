@@ -86,31 +86,16 @@ void professorType::teachCourse(courseType** courseList, int totalCourses)
     courseCount = 0; // reset
 
     for (int i = 0; i < 3; ++i) { // Professors max 3 courses
-        for (int j = 0; j < totalCourses; ++j) {
-            if (courseList[j] != nullptr && courseList[j]->getCourseID() == tempCourseIDs[i]) {
-    				if (courseCount < 3) {
-        					if (courseList[j]->getNumProf() < MAX_PROF_PER_COURSE) {
-            this->courses[courseCount] = courseList[j];
-            courseCount++;
-            courseList[j]->setNumProf(courseList[j]->getNumProf() + 1); // Increment professor count
-        } else {
-            cout << "Warning: Course " << courseList[j]->getCourseID() 
-                 << " already has maximum instructors assigned.\n";
-        }
-   		 } else {
-        cout << "Cannot assign professor: maximum load of 3 courses reached." << endl;
-    			}
-    break; // done finding this course
-				}
+        if (tempCourseIDs[i] != "") {
+            for (int j = 0; j < totalCourses; ++j) {
+                if (courseList[j] != nullptr && courseList[j]->getCourseID() == tempCourseIDs[i]) {
+                    safeAssign(courseList[j]);
+                    break; // matched and assigned
+                }
+            }
         }
     }
-
-	SelectionSort(courses, courseCount, [](courseType* a, courseType* b) {
-    return *a < *b;
-		});
-
 }
-
 
 void professorType::printByRow() const
 {
@@ -261,26 +246,29 @@ void professorType :: manualInput ()
 
 }
 
-void professorType::assignCourse (courseType *c)
+void professorType::safeAssign(courseType* c)
 {
-	if (courseCount >= 3){
-	cout << "Professor Already Assigned to 3 courses. Cannot assign more\n";
-	return;
-	}
+    if (courseCount >= 3) {
+        cout << "Professor already assigned to 3 courses. Cannot assign more.\n";
+        return;
+    }
 
-	if (c->getNumProf() >= MAX_PROF_PER_COURSE)	{
-		cout << "Warning: Course " << c->getCourseID () << " has already assigned with maximum professors\n";
-		return;
-	}
+    if (c->getNumProf() >= MAX_PROF_PER_COURSE) {
+        cout << "Warning: Course " << c->getCourseID() << " already has maximum instructors assigned.\n";
+        return;
+    }
 
-	courses[courseCount] = c;
-	courseCount++;
-	cout << "┌──────────────────────────────────────────────────────────────────┐\n";
-	cout << "   Professor successfully assigned to course " << c->getCourseID() << endl;
-	cout << "└──────────────────────────────────────────────────────────────────┘\n";
+    courses[courseCount] = c;
+    courseCount++;
+    c->setNumProf(c->getNumProf() + 1); // Don't forget to increment number of professors!
 
-	SelectionSort(courses, courseCount, [](courseType* a, courseType* b) {
-    return *a < *b;
-		});
+    setColour(93);
+    cout << "┌──────────────────────────────────────────────────────────────────┐\n";
+    cout << "   Professor successfully assigned to course " << c->getCourseID() << endl;
+    cout << "└──────────────────────────────────────────────────────────────────┘\n";
+    resetColour();
 
+    SelectionSort(courses, courseCount, [](courseType* a, courseType* b) {
+        return *a < *b;
+    });
 }

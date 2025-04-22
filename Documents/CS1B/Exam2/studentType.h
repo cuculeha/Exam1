@@ -20,6 +20,7 @@ public:
 	void addCourse (courseType** courses, int totalCourses );
 	void enrollInCourse(courseType* c);
 	void incCourseCount() { courseCount++; };
+	void safeEnroll( courseType *c);
 	void manualInput();
 
 	double getGPA() const;

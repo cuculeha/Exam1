@@ -25,7 +25,7 @@ class courseType
 	void setNumProf ( int numProf );
 	static void incCourseCount() { courseCount++; }
 	static void incCensus () { census++ ; }
-	void enrollStudent (studentType *newStudent);
+	void enrollStudent (studentType* newStudent);
 	void allocateEnrolledArray();
 	void manualInput();
 

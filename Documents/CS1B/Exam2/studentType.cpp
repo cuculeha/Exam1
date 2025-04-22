@@ -122,6 +122,7 @@ void studentType::addCourse(courseType** courseList, int totalCourses)
         						// Capacity available for student to take more classes
         						if (courseCount < 5) { 
             				courses[courseCount] = courseList[j];
+								courseList[j]->enrollStudent(this);
             				courseCount++;
             				courseList[j]->incEnroll(); // Increase course enrollment
 								courseType::incCensus();
@@ -289,9 +290,11 @@ void studentType::enrollInCourse(courseType* c) {
 
     courseType::incCensus();    // Increment Census globally
     c->enrollStudent(this);      // Tell course to link student
-
-    cout << "Student successfully enrolled in course " << c->getCourseID() << ".\n";
- 
+	setColour (93);
+	cout << "┌──────────────────────────────────────────────────────────────────┐\n";
+	cout << "   Student successfully enrolled in course " << left << setw (5) << c->getCourseID() << "\n";
+	cout << "└──────────────────────────────────────────────────────────────────┘\n";
+ 	resetColour();
 	SelectionSort(courses, courseCount, [](courseType* a, courseType* b) {
     return *a < *b;
 	});

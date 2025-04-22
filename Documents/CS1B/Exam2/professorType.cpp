@@ -6,7 +6,7 @@
 #include "selectionSort.h"
 using namespace std;
 int professorType::profCount = 0;
-const int MAX_PROF_PER_COURSE = 2;
+const int MAX_PROF_PER_COURSE = 3;
 
 // Setters
 void professorType:: setEmpID (string EmpID) {	employeeID = EmpID;	}
@@ -144,7 +144,6 @@ void professorType::printByRow() const
 			// Print each persons
 			courses[i]->showStudents();
 			cout << endl;
-					
 			}
 
 		}
@@ -259,5 +258,29 @@ void professorType :: manualInput ()
 	cout << "Department : \n";
 	getline (cin, dpt);
 	setDep (dpt);
+
+}
+
+void professorType::assignCourse (courseType *c)
+{
+	if (courseCount >= 3){
+	cout << "Professor Already Assigned to 3 courses. Cannot assign more\n";
+	return;
+	}
+
+	if (c->getNumProf() >= MAX_PROF_PER_COURSE)	{
+		cout << "Warning: Course " << c->getCourseID () << " has already assigned with maximum professors\n";
+		return;
+	}
+
+	courses[courseCount] = c;
+	courseCount++;
+	cout << "┌──────────────────────────────────────────────────────────────────┐\n";
+	cout << "   Professor successfully assigned to course " << c->getCourseID() << endl;
+	cout << "└──────────────────────────────────────────────────────────────────┘\n";
+
+	SelectionSort(courses, courseCount, [](courseType* a, courseType* b) {
+    return *a < *b;
+		});
 
 }

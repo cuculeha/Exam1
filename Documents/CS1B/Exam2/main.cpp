@@ -177,6 +177,12 @@ int main ()
 
 char handleManually()
 {
+
+	bool canEnroll = false;
+	bool canAssign = false;
+	if (studentType::getStudentCount() > 0 && courseType::getCourseCount() > 0 ) { canEnroll = true;	}
+	if (professorType::getProfCount() > 0 && courseType::getCourseCount() > 0 ) { canAssign = true;	}
+
 	char choice;
 	system ("clear");
 	setColour(96);
@@ -186,12 +192,18 @@ char handleManually()
 	cout << "│     (1) -   Add A New Student                                    │\n";
 	cout << "│     (2) -   Add A New Professor                                  │\n";
 	cout << "│     (3) -   Add A New Course                                     │\n";
+	if (canEnroll){
 	cout << "│     (4) -   Enroll an existing student in a Course               │\n";
+	}
+	if (canAssign){
 	cout << "│     (5) -   Assign an existing professor in a course             │\n";
+	}
 	cout << "├──────────────────────────────────────────────────────────────────┤\n";
 	cout << "│     (0) -   QUIT                                                 │\n";
 	cout << "└──────────────────────────────────────────────────────────────────┘\n";
 	resetColour();
+
+	if (canEnroll == true && canAssign == true){
 	cout << "Enter your choice 1 - 5\n";
 	cin.get (choice);
 	cin.ignore (100, '\n');
@@ -202,8 +214,56 @@ char handleManually()
 			cin.get (choice);
 			cin.ignore (100, '\n');
 		}
-	return choice;
 
+		return choice;
+	}
+
+	else if (canEnroll){
+	cout << "Enter your choice 1 - 4. Currently cant assign professor to course..\n";
+	cin.get (choice);
+	cin.ignore (100, '\n');
+
+		while (choice < '0' || choice > '4' )
+		{
+			cout << choice << " is not a valid option. Please enter a number between 1 and 4. (0 to quit)\n";
+			cin.get (choice);
+			cin.ignore (100, '\n');
+		}
+
+		return choice;
+	}
+
+	else if (canAssign){
+	cout << "Enter your choice (1 - 3) or 5. Currently cant enroll student in a course..\n";
+	cin.get (choice);
+	cin.ignore (100, '\n');
+
+		while (choice != '0' && choice != '1' && choice != '2' && choice != '3' && choice != '5')
+		{
+			cout << choice << " is not a valid option. Please enter a number between (1 - 3) or 5 (0 to quit)\n";
+			cin.get (choice);
+			cin.ignore (100, '\n');
+		}
+
+		return choice;
+	}
+
+
+	else
+	{
+	cout << "Enter your choice (1 - 3). Currently cant enroll student in a course and assign professor to a course..\n";
+	cin.get (choice);
+	cin.ignore (100, '\n');
+
+		while (choice < '0' || choice > '3')
+		{
+			cout << choice << " is not a valid option. Please enter a number between (1 - 3) \n";
+			cin.get (choice);
+			cin.ignore (100, '\n');
+		}
+
+	}
+	return choice;
 }
 
 
@@ -584,7 +644,33 @@ void assignCourseManually (char manual, professorType** &professors, studentType
 
 
 	case '5':
+	{
+	cout << "Enter the professor ID : ";
+	getline (cin, id);
+	
+	professorType* p = findById(professors, professorType::getProfCount(), id, &professorType::getEmpID);
+	if (p == nullptr) {
+   cout << "Professor with ID : " << id << " not found. Press Enter to Continue";
+ 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	return;
+		}
+	
 
+	cout << "Enter Course ID for the professor to teach :";
+	getline (cin, courseID);
+
+	courseType* c = findById(courses, courseType::getCourseCount(), courseID, &courseType::getCourseID);
+	if ( c == nullptr ){
+		cout << "Course ID Not Found. Press Enter to Continue\n";
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		return;
+	}
+
+	// Finally both courseID and student ID is valid..
+   p->assignCourse(c);
+	cout << "Press Enter to Continue\n";
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	}
 
 	break;
 	}

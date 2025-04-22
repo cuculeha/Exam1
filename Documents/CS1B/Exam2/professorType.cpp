@@ -122,27 +122,32 @@ void professorType::printByRow() const
          << "│ " << left << setw(6) << getDep()
          << "│ " << fixed << setprecision(2) << setw(5) << getCount()
          << "│ ";
+		if (courseCount > 0)
+		cout << courseCount << " courses assigned\n";
 
-    bool hasCourse = false;
-    for (int i = 0; i < courseCount; ++i) {
-        if (courses[i] != nullptr) {
-            if (!hasCourse) {
-                cout << courses[i]->getSection() << " -> " << courses[i]->getTitle() << endl;
-                hasCourse = true;
-            }
-            else {
-                cout << setw(21) << " " << "│ " 
-                     << setw(10) << " " << "│ "
-                     << setw(6) << " " << "│ "
-                     << setw(5) << " " << "│ "
-                     << courses[i]->getSection() << " -> " << courses[i]->getTitle() << endl;
-            }
-        }
-    }
-
-    if (!hasCourse) {
+    	if (courseCount == 0) {
         cout << "(No assigned courses)" << endl;
-    }
+    	}
+		cout << " Assigned Courses :\n";
+		cout << "      Section │ Title                       │ Day   │ Time         │ Room      \n";
+
+		if (courseCount > 0)
+		cout << "     ─────────┴─────────────────────────────┴───────┴──────────────┴──────────── \n";
+		// Courses Assigned to the professor
+		for (int i = 0 ; i < courseCount ; i++)
+		{
+			if (courses[i] != nullptr ){
+			// Print course details
+			cout << "      " << left << setw(8) << courses[i]->getSection() << "│ " << left << setw (28) << trimString(courses[i]->getTitle(), 25) << "│ ";
+			cout << left << setw (6) << courses[i]->getDays() << "│ " << left << setw (15) << courses[i]->getTime() << "│ ";
+			cout << left << setw (13) << courses[i]->getRoom() << endl;
+			// Print each persons
+			courses[i]->showStudents();
+			cout << endl;
+					
+			}
+
+		}
 }
 
 istream &operator>> (istream &in, professorType &obj)

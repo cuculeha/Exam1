@@ -33,21 +33,15 @@ int courseType :: getNumProf() const	{  return numInstructors;	}
 
 courseType::courseType ()
 {
-	section = "";
-	title = "";
-	days = "";
-	time = "";
-	room = "";
-	capacity = 0;
-	enrolledCount = 0;
-	numInstructors = 0;
-	++census;
+	section = ""; title = ""; days = ""; time = ""; room = ""; capacity = 0; enrolledCount = 0; numInstructors = 0; 
+	enrolledStudents = nullptr; ++census;
 }
 
-courseType:: ~courseType ()
-{
+courseType::~courseType() {
+    if (enrolledStudents != nullptr) {
+        delete[] enrolledStudents;
+    }
 }
-
 void courseType::printByRow() const
 {
 	cout << " " << left << setw(8) << getSection() << "│ " << left << setw (28) << trimString(getTitle(), 25) << "│ ";
@@ -55,10 +49,6 @@ void courseType::printByRow() const
 	cout << left << setw (13) << getRoom() << "│ " << left << setw(7) << getCapacity() << "│ ";
 	cout << left << setw(7) << getNumProf () << "│ " << left << setw(7) << getEnrolledCount() << endl;
 
-}
-void courseType :: print () const
-{
-	cout << left << setw(20) << getSection () << " " << getTitle () << endl;
 }
 
 istream &operator>> (istream &in, courseType &obj)
@@ -91,10 +81,63 @@ istream &operator>> (istream &in, courseType &obj)
 
 	getline(in, quantity, '|');
 	obj.setCapacity(stoi(quantity));
+
+	obj.allocateEnrolledArray();
+
 return in;
 }
 
 bool courseType:: operator< (const courseType& b) const
 {
-	return (getCourseID() < b.getCourseID());
+	return (getSection() < b.getSection());
+}
+
+void courseType::allocateEnrolledArray() {
+    if (enrolledStudents == nullptr && capacity > 0) {
+        enrolledStudents = new studentType*[capacity];
+        for (int i = 0; i < capacity; ++i) {
+            enrolledStudents[i] = nullptr;
+        }
+    }
+}
+
+void courseType::enrollStudent(studentType* newStudent) {
+    if (enrolledCount == capacity) {
+        cout << "Course is full! Cannot enroll more students.\n";
+        return;
+    }
+
+    if (enrolledStudents == nullptr) {
+        enrolledStudents = new studentType*[capacity];
+        for (int i = 0; i < capacity; ++i) {
+            enrolledStudents[i] = nullptr;
+        }
+    }
+
+    // INSERT THE NEW STUDENT
+    enrolledStudents[enrolledCount++] = newStudent;
+}
+
+
+void courseType::showStudents() const
+{
+    if (enrolledStudents == nullptr) {
+        cout << "No students enrolled in this course yet.\n";
+        return;
+    }
+
+	   cout << setw (15) << left << "" << "Enrolled students :\n";
+		cout << setw (18) << left << "" << " Name          │ ID      │ Class   │ GPA \n";
+		cout << setw (18) << left << "" << "───────────────┴─────────┴─────────┴──────\n";
+    for (int i = 0; i < enrolledCount; i++)
+    {
+        if (enrolledStudents[i] != nullptr) {
+			string format = enrolledStudents[i]->getLName() + ", " + enrolledStudents[i]->getFName()[0] + ".";
+            cout << setw (18) << left << "" << setw (15) << left << format << "│ ";
+				cout << setw (8) << left << enrolledStudents[i]->getID() << "│ " ;
+				cout << setw (8) << left << enrolledStudents[i]->getClassification() << "│ " ;
+				cout << setw (8) << left << enrolledStudents[i]->getGPA();
+				cout << endl;
+        }
+    }
 }

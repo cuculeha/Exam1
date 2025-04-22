@@ -114,8 +114,8 @@ void studentType::addCourse(courseType** courseList, int totalCourses)
         						if (courseCount < 5) { 
             				courses[courseCount] = courseList[j];
             				courseCount++;
-            				courseList[j]->incEnroll(); // Increase course enrollment
-								courseType::incCensus();
+								courseType::incCensus();  // Increment Census
+								courseList[j]->enrollStudent(this);  // Tell course to take students
         } 
         else {
             cout << "Warning: Student already enrolled in maximum 5 courses. Extra courses ignored." << endl;
@@ -204,4 +204,55 @@ istream &operator>> (istream &in, studentType &obj)
 		}
 
 	return in;
+}
+
+void studentType :: manualInput () 
+
+{
+	string id;
+	string first;
+	string last;
+	string gender;
+	string height;
+	string address;
+	string dob;
+	string gpa;
+	string classf;
+
+	cout << "Student ID : \n";
+	getline (cin, id);
+	setID (id);
+
+	cout << "First Name : \n";
+	getline (cin, first);
+	setFName (first);
+
+	cout << "Last Name : \n";
+	getline (cin, last);
+	setLName (last);
+
+	cout << "Gender : \n";
+	getline (cin, gender);
+	setGender (gender[0]);
+
+	cout << "Height : \n";
+	getline (cin, height);
+	setHeight (stoi(height));
+
+	cout << "Address : \n";
+	getline (cin, address);
+	setAddress (address);
+
+	cout << "DOB : \n";
+	getline (cin, dob);
+	setDOB (dob);
+
+	cout << "GPA : \n";
+	getline (cin, gpa);
+	setGPA (stod(gpa));
+
+	cout << "Classification : \n";
+	getline (cin, classf);
+	setClassification (classf);
+
 }

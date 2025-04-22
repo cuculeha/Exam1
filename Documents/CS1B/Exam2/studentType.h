@@ -19,6 +19,7 @@ public:
 	static void incStudentCount () 	{	++studentCount; 	}
 	void addCourse (courseType** courses, int totalCourses );
 	void incCourseCount() { courseCount++; };
+	void manualInput();
 
 	double getGPA() const;
 	string getID() const;

@@ -37,10 +37,11 @@ class personType
 	virtual~personType();
 
 	// Print function
-	virtual void print() const = 0;
+	virtual void print(ostream& out) const = 0;
 
 	// Operator Overloading Functions
 	bool operator<(const personType& b) const;
+	friend ostream& operator<<(ostream& out, const personType& obj);
 
 	// Counters declaration
 	static void incPeopleCount () 	{	peopleCount++; };

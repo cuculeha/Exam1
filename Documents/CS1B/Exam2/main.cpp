@@ -440,6 +440,7 @@ void studentwithCourses (studentType** students)
 		cout << " ────────────────────────────────────────────────────────────────────────────────────────────────── \n";
 		}
 	}
+	cout << fixed << setprecision(2);
 	setColour(96);
 	cout << "                  TOTAL STUDENT LISTED : " << studentType::getStudentCount();
 	cout << "\n                          CENSUS VALUE : " << coursesCensus;
@@ -527,7 +528,7 @@ void displayAll (personType** people, int totalPersons)
 		});
 
 		for (int i = 0; i < totalPersons; i++) {
-    		people[i]->print();
+    		cout << *people[i];
 		}
 
 	cout << "Press Enter to Continue..\n";

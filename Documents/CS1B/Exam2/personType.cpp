@@ -104,3 +104,9 @@ bool personType:: operator< (const personType& b) const
  return getLName() < b.getLName();
 
 }
+
+ostream& operator<<(ostream& out, const personType& obj)
+{
+	obj.print(out);  // virtual call
+    return out;
+}

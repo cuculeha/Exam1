@@ -19,24 +19,24 @@ string professorType :: getDep () const	{	return department;	}
 string professorType :: getDegree () const	{	return degree;	}
 int professorType :: getCount () const { return courseCount; }
 
-void professorType :: print () const
+void professorType::print(ostream& out) const
 {	
 	setColour(96);
 	string full;
-	cout << "┌───────────────────────────────────────────────────────────────────────────────────────┐\n";
-	cout << "│ Type : Professor                                                                      │\n";
+	out << "┌───────────────────────────────────────────────────────────────────────────────────────┐\n";
+	out << "│ Type : Professor                                                                      │\n";
 	char firstLetter = getFName()[0];
 	full = getLName() + ", " + firstLetter + ".";
-	cout << "│ Name : " << left << setw(15) << full << " ";
-	cout << "Gender : " << left << setw(11) << getGender() << " ";
-	cout << "Height : " << left << setw(32) << getHeight() << " │\n";
-	cout << "│ DOB : " << left << setw(16) << getDOB() << " ";
-	cout << "Address : " << left << setw(52) << getAddress() << " │\n";
-	cout << "│ Professor ID : " << left << setw(8) << getEmpID();
-	cout << "Department : " << left << setw(8) << getDep();
-	cout << "Degree : " << left << setw(32) << getDegree() << " │\n";
-	cout << "│ ───────────────────────────────────────────────────────────────────────────────────── │\n";
-	cout << "│ Assigned Courses (sorted):                                                            │\n";
+	out << "│ Name : " << left << setw(15) << full << " ";
+	out << "Gender : " << left << setw(11) << getGender() << " ";
+	out << "Height : " << left << setw(32) << getHeight() << " │\n";
+	out << "│ DOB : " << left << setw(16) << getDOB() << " ";
+	out << "Address : " << left << setw(52) << getAddress() << " │\n";
+	out << "│ Professor ID : " << left << setw(8) << getEmpID();
+	out << "Department : " << left << setw(8) << getDep();
+	out << "Degree : " << left << setw(32) << getDegree() << " │\n";
+	out << "│ ───────────────────────────────────────────────────────────────────────────────────── │\n";
+	out << "│ Assigned Courses (sorted):                                                            │\n";
 	
 	bool hasCourse = false;
 
@@ -44,14 +44,14 @@ void professorType :: print () const
     	if (courses[i] != nullptr) {
         hasCourse = true;
 			string fullInfo = courses[i]->getSection() + " - " + courses[i]->getTitle();
-        cout << "│   " << left << setw(83) << fullInfo << " │\n";
+        out << "│   " << left << setw(83) << fullInfo << " │\n";
     			}
 			}
 
 				if (!hasCourse) {
-    			cout << "(No assigned courses)" << endl;
+    			out << "│ (No assigned courses)                                                                 │\n";
 		}
-	cout << "└───────────────────────────────────────────────────────────────────────────────────────┘\n";
+	out << "└───────────────────────────────────────────────────────────────────────────────────────┘\n";
 	resetColour();
 }
 

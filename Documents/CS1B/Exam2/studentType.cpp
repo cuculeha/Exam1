@@ -35,24 +35,24 @@ studentType:: studentType()
 	classification = "";
 }
 
-void studentType :: print () const
+void studentType :: print (ostream& out) const
 {	
 	setColour(93);
 	string full;
-	cout << "┌───────────────────────────────────────────────────────────────────────────────────────┐\n";
-	cout << "│ Type : Student                                                                        │\n";
+	out << "┌───────────────────────────────────────────────────────────────────────────────────────┐\n";
+	out << "│ Type : Student                                                                        │\n";
 	char firstLetter = getFName()[0];
 	full = getLName() + ", " + firstLetter + ".";
-	cout << "│ Name : " << left << setw(15) << full << " ";
-	cout << "Gender : " << left << setw(15) << getGender() << " ";
-	cout << "Height : " << left << setw(28) << getHeight() << " │\n";
-	cout << "│ DOB : " << left << setw(16) << getDOB() << " ";
-	cout << "Address : " << left << setw(52) << getAddress() << " │\n";
-	cout << "│ Student ID : " << left << setw(10) << getID();
-	cout << "Classification : " << left << setw(8) << getClassification();
-	cout << "GPA : " << left << setw(31) << getGPA() << " │\n";
-	cout << "│ ───────────────────────────────────────────────────────────────────────────────────── │\n";
-	cout << "│ Assigned Courses (sorted):                                                            │\n";
+	out << "│ Name : " << left << setw(15) << full << " ";
+	out << "Gender : " << left << setw(15) << getGender() << " ";
+	out << "Height : " << left << setw(28) << getHeight() << " │\n";
+	out << "│ DOB : " << left << setw(16) << getDOB() << " ";
+	out << "Address : " << left << setw(52) << getAddress() << " │\n";
+	out << "│ Student ID : " << left << setw(10) << getID();
+	out << "Classification : " << left << setw(8) << getClassification();
+	out << "GPA : " << left << setw(31) << getGPA() << " │\n";
+	out << "│ ───────────────────────────────────────────────────────────────────────────────────── │\n";
+	out << "│ Assigned Courses (sorted):                                                            │\n";
 	
 	bool hasCourse = false;
 
@@ -60,14 +60,14 @@ void studentType :: print () const
     	if (courses[i] != nullptr) {
         hasCourse = true;
 			string fullInfo = courses[i]->getSection() + " - " + courses[i]->getTitle();
-        cout << "│   " << left << setw(83) << fullInfo << " │\n";
+        out << "│   " << left << setw(83) << fullInfo << " │\n";
     			}
 			}
 
 				if (!hasCourse) {
-    			cout << "  (No assigned courses)" << endl;
-		}
-	cout << "└───────────────────────────────────────────────────────────────────────────────────────┘\n";
+    			out << "│  (No assigned courses)                                                                │\n";
+			}
+	out << "└───────────────────────────────────────────────────────────────────────────────────────┘\n";
 	resetColour();
 }
 
@@ -157,12 +157,6 @@ void studentType::addCourse(courseType** courseList, int totalCourses)
     }
 }
 
-
-ostream &operator<< (ostream &out, const studentType &obj)
-{
-	out << "Operator for extracting\n";
-	return out;
-}
 
 istream &operator>> (istream &in, studentType &obj)
 {

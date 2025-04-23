@@ -27,7 +27,7 @@ public:
 	~professorType();
 
 	// Print methods
-	void print() const override;
+	void print(ostream& out) const override;
 	void printByRow () const;
 	void briefPrint () const;
 

@@ -173,7 +173,7 @@ long long linearSearch (long long list1[], long long target)
 		cout << "Target FOUND in the list\n";
 		cout << "Press Enter to Continue..\n";
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		return loc;
+		return comparisonCount + 1;
 		}
 
 		else
@@ -213,7 +213,7 @@ long long binarySearch (long long list2[], long long target)
 		cout << "Target FOUND in the list\n";
 		cout << "Press Enter to Continue..\n";
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		return mid;
+		return binaryCount + 1;
 		}
 
 		else

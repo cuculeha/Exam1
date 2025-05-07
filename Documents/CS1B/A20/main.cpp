@@ -5,7 +5,7 @@
 
 using namespace std;
 
-const long long SIZE = 1000000;
+const long long SIZE = 1000;
 
 void readFile(long long *array1, long long *array2);
 void selectionSort(long long list[]);
@@ -101,7 +101,7 @@ void readFile(long long *array1, long long *array2)
 	long long trash;
 
 	ifstream inData;
-	inData.open ("data/1000000.dat");
+	inData.open ("data/1000.dat");
 	int i = 0;
 
 	// First number is not data, just an indicator.

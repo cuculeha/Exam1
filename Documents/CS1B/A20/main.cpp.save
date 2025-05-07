@@ -1,0 +1,109 @@
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <limits>
+
+using namespace std;
+
+const long long SIZE = 10;
+
+void readFile(long long *array1, long long *array2);
+void selectionSort(long long list[]);
+char showMenu (long long target, long long linear, long long binary);
+int main(){
+
+	long long *array1, *array2;
+	array1 = new long long[SIZE];
+	array2 = new long long[SIZE];
+	char choice;
+	long long target = -999;
+	long long linearComparison = -999;
+	long long binaryComparison = -999;
+
+	system ("clear");
+	if (array1 != nullptr && array2 != nullptr){	
+		cout << "Successfully Allocated Memory of " << SIZE << " long long integers\n";
+		cout << "Reading Data From A File....\n";
+		readFile (array1, array2);
+		cout << "Successfully loaded data in program....Press Enter to Continue..\n";
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		}
+
+
+
+	do {
+		choice = showMenu(target, linearComparison, binaryComparison);
+
+
+		}
+
+	while (choice != '4');
+
+return 0;
+}
+
+
+char showMenu (long long target, long long linear, long long binary)
+{
+	char choice; cout << "┌──────────────────────── A20 ──────────────────────┐\n"; cout << "│ Current Target : " << setw (30) 
+	<< left << target << "│\n"; cout << "──────────────────────────────────────────────────── │\n"; cout << "│ Search 
+	Comparisons │\n"; cout << "│ Linear : " << setw (30) << left << linear << "│\n"; cout << "│ Binary : " << setw (30) << 
+	left << binary << "│\n"; cout << "│ │\n"; cout << "│ <1> Enter integer to search │\n"; cout << "│ <2> Linear Search │\n"; 
+	cout << "│ <3> Binary Search │\n"; cout << "│ <4> Quit │\n"; cout << "│ │\n"; cout << "│ Choose from the menu (1-4): │\n"; 
+	cout << "└───────────────────────────────────────────────────┘\n"; cin.get (choice); cin.ignore (100, '\n');
+
+	while (choice < '1' || choice > '4' )
+		{
+			cout << choice << " is not a valid option. Please enter a number between 1 and 4.\n";
+			cout << right << setw(50)<< "→  ";
+			cin.get (choice);
+			cin.ignore (100, '\n');
+		}
+
+	return choice;
+}
+
+
+void readFile(long long *array1, long long *array2)
+{
+	long long trash;
+
+	ifstream inData;
+	inData.open ("data/10.dat");
+	int i = 0;
+
+	// First number is not data, just an indicator.
+	// The value is not to be used in program later
+	inData >> trash;
+
+	while (i < SIZE) {
+	inData >> array1[i];
+	array2[i]=array1[i];
+	i++;
+
+	}
+
+	inData.close();
+
+}
+
+void selectionSort(long long list[])
+{
+		int index;
+		long long smallestIndex;
+		int location;
+		long long temp;
+		for (index = 0; index < SIZE - 1; index++)
+			{
+					//Step a
+							smallestIndex = index;
+							for (location = index + 1; location < SIZE; location++){
+							if (list[location] < list[smallestIndex])
+						smallestIndex = location;
+						}
+							//Step b
+							temp = list[smallestIndex];
+							list[smallestIndex] = list[index];
+							list[index] = temp;
+		}
+}

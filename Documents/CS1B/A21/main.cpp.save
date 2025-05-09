@@ -1,0 +1,126 @@
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <limits>
+
+using namespace std;
+
+const long long SIZE = 1000000;
+
+void selectionSort(long long list[]);
+long long linearSearch (long long list1[], long long target);
+long long binarySearch (long long list2[], long long target);
+char showMenu (long long target, long long linear, long long binary);
+long long getTarget();
+
+int main(){
+
+	
+return 0;
+}
+
+
+void selectionSort(long long list2[])
+{
+		long long index;
+		long long smallestIndex;
+		long long location;
+		long long temp;
+		for (index = 0; index < SIZE - 1; index++)
+			{
+					//Step a
+							smallestIndex = index;
+							for (location = index + 1; location < SIZE; location++){
+							if (list2[location] < list2[smallestIndex])
+						smallestIndex = location;
+						}
+							//Step b
+							temp = list2[smallestIndex];
+							list2[smallestIndex] = list2[index];
+							list2[index] = temp;
+		}
+}
+
+long long getTarget()
+{
+	long long target;
+	system("clear");
+	cout << "Enter your target to search later in the program\n";
+	cin >> target;
+	cin.ignore (100, '\n');
+
+	return target;
+}
+
+long long linearSearch (long long list1[], long long target)
+{
+	long long loc;
+	bool found = false;
+	loc = 0;
+	long long comparisonCount = 0;
+
+			while (loc < SIZE && !found){
+						if (list1[loc] == target)
+						found = true;
+
+						else{
+							loc++;
+							comparisonCount++;
+					}
+		}
+
+		if (found){
+		system("clear");
+		cout << "Target FOUND in the list\n";
+		cout << "Press Enter to Continue..\n";
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		return comparisonCount + 1;
+		}
+
+		else
+		system("clear");
+		cout << "Target is NOT found in the list\n";
+		cout << "Press Enter to Continue..\n";
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		return comparisonCount;
+}
+
+long long binarySearch (long long list2[], long long target)
+{
+	long long first = 0;
+	long long last = SIZE - 1;
+	long long mid;
+	long long binaryCount = 0 ;
+	bool found = false;
+			while (first <= last && !found)
+				{
+						mid = (first + last) / 2;
+						if (list2[mid] == target)
+							found = true;
+
+						else if (list2[mid] > target){
+							last = mid - 1;
+							binaryCount++;
+							}
+
+						else{
+							first = mid + 1;
+							binaryCount++;
+							}
+				}
+
+		if (found){
+		system("clear");
+		cout << "Target FOUND in the list\n";
+		cout << "Press Enter to Continue..\n";
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		return binaryCount + 1;
+		}
+
+		else
+		system("clear");
+		cout << "Target is NOT found in the list\n";
+		cout << "Press Enter to Continue..\n";
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		return binaryCount;
+}

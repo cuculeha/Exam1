@@ -7,7 +7,7 @@
 using namespace std;
 using namespace std::chrono;
 
-const long long SIZE = 100000;
+const long long SIZE = 1000000;
 
 void readFile(long long *array1, long long *array2, long long *array3);
 void selectionSort(long long list[], long long &c, long long &s);
@@ -90,6 +90,10 @@ int main(){
 	cout << "└──────────────────────────────────────────────────────────────────┘\n";
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
+	delete[] firstPtr;
+	delete[] secondPtr;
+	delete[] thirdPtr;
+
 return 0;
 }
 
@@ -98,7 +102,7 @@ void readFile(long long *array1, long long *array2, long long *array3)
 	long long trash;
 
 	ifstream inData;
-	inData.open ("data/100000.dat");
+	inData.open ("data/1000000.dat");
 	long long i = 0;
 
 	// First number is not data, just an indicator.
@@ -194,12 +198,12 @@ void printTime (long long totalSeconds)
     string time = "";
 
     if (hours > 0)
-        time += to_string(hours) + " hours, ";
+        time += to_string(hours) + " hr, ";
 
     if (minutes > 0 || hours > 0)
-        time += to_string(minutes) + " minutes, ";
+        time += to_string(minutes) + " min, ";
 
-    time += to_string(seconds) + " seconds";
+    time += to_string(seconds) + " sec";
 
 	cout << "│        <3> Time Taken            - " << left << setw(30) << time <<  "│\n";
 	

@@ -166,6 +166,7 @@ void insertionSort(long long list[], long long &c, long long &s) {
 
         // Insert key at correct position (no comparing and swapping here)
         list[j + 1] = key;
+			s++; 		// the key is swapped to be in a correct place
     }
 }
 

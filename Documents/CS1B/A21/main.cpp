@@ -162,6 +162,8 @@ void insertionSort(long long list[], long long &c, long long &s) {
 				s++;
         }
 
+			if (j >= 0) c++; // j >=  0 is a comparison too that exited the loop
+
         // Insert key at correct position (no comparing and swapping here)
         list[j + 1] = key;
     }

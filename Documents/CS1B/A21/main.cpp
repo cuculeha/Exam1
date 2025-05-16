@@ -25,7 +25,7 @@ int main(){
 	long long selectionSwap = 0;
 
 	long long insertionComparison = 0;
-	long long insertionSwap = 0;
+	long long insertionShift = 0;
 
 	long long bubbleComparison = 0;
 	long long bubbleSwap = 0;
@@ -67,11 +67,11 @@ int main(){
 	cout << "│                                                                  │\n";
 	cout << "│ Calling Insertion Sort ...                                       │\n";
 	auto insertionStart = high_resolution_clock::now();
-	insertionSort (secondPtr, insertionComparison, insertionSwap);
+	insertionSort (secondPtr, insertionComparison, insertionShift);
 	auto insertionStop = high_resolution_clock::now();
 	auto insertionDuration = duration_cast<seconds>(insertionStop - insertionStart);
 	cout << "│        <1> Number of Comparisons - " << left << setw(30) << insertionComparison <<  "│\n";
-	cout << "│        <2> Number of Swaps       - " << left << setw(30) << insertionSwap <<  "│\n";
+	cout << "│        <2> Number of Shifts      - " << left << setw(30) << insertionShift <<  "│\n";
 	printTime (insertionDuration.count());
 
 	// Bubble Sort

@@ -156,7 +156,7 @@ void insertionSort(long long list[], long long &c, long long &s) {
 
         // Shift elements greater than key to the right
         while (j >= 0 && list[j] > key) {   // Comparisons and Shifting happens here
-            list[j + 1] = list[j];
+            list[j + 1] = list[j];		// Shifting key
             j--;
 				c++;
 				s++;
@@ -164,9 +164,8 @@ void insertionSort(long long list[], long long &c, long long &s) {
 
 			if (j >= 0) c++; // j >=  0 is a comparison too that exited the loop
 
-        // Insert key at correct position (no comparing and swapping here)
         list[j + 1] = key;
-			s++; 		// the key is swapped to be in a correct place
+			s++; 		// the key is shifted to be in a correct place
     }
 }
 
